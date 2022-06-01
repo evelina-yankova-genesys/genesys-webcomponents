@@ -45,6 +45,7 @@
  - [gux-form-field-select](../gux-form-field/components/gux-form-field-select)
  - [gux-form-field-text-like](../gux-form-field/components/gux-form-field-text-like)
  - [gux-form-field-textarea](../gux-form-field/components/gux-form-field-textarea)
+ - [gux-form-field-toggle](../gux-form-field/components/gux-form-field-toggle)
  - [gux-input-color](../../legacy/gux-form-field-legacy/components/gux-input-color)
  - [gux-input-number](../../legacy/gux-form-field-legacy/components/gux-input-number)
  - [gux-input-search](../../legacy/gux-form-field-legacy/components/gux-input-search)
@@ -96,6 +97,7 @@ graph TD;
   gux-form-field-select --> gux-icon
   gux-form-field-text-like --> gux-icon
   gux-form-field-textarea --> gux-icon
+  gux-form-field-toggle --> gux-icon
   gux-input-color --> gux-icon
   gux-input-number --> gux-icon
   gux-input-search --> gux-icon

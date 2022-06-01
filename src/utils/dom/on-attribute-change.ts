@@ -35,7 +35,7 @@ export function onDisabledChange(
 
 export function onRequiredChange(
   element: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement,
-  callback: (disabled: boolean) => void
+  callback: (required: boolean) => void
 ): MutationObserver {
   const observer = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
