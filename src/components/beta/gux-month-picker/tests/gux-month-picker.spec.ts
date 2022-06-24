@@ -16,18 +16,18 @@ describe('gux-month-picker-beta', () => {
   });
 
   describe('#render', () => {
-    [
-      `<gux-month-picker-beta value="January 2022"></gux-month-picker-beta>`
-    ].forEach((input, index) => {
-      it(`should render component as expected (${index + 1})`, async () => {
-        const page = await newSpecPage({
-          components,
-          html: input,
-          language
-        });
+    [`<gux-month-picker-beta value="2022-01"></gux-month-picker-beta>`].forEach(
+      (input, index) => {
+        it(`should render component as expected (${index + 1})`, async () => {
+          const page = await newSpecPage({
+            components,
+            html: input,
+            language
+          });
 
-        expect(page.root).toMatchSnapshot();
-      });
-    });
+          expect(page.root).toMatchSnapshot();
+        });
+      }
+    );
   });
 });

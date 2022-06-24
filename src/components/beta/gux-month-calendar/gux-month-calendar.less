@@ -8,7 +8,6 @@
 }
 
 .gux-month-calendar {
-  position: absolute;
   margin-top: 2px;
   border: 1px solid @gux-grey-30;
   .gux-shadow-20();
@@ -111,31 +110,41 @@
         }
 
         td {
-          &:focus {
-            background-color: @gux-grey-100;
-            border-color: @gux-blue-60;
-            border-radius: 4px;
-          }
-
           width: 66px;
           height: 49px;
           padding: 0;
           margin: 0;
-          text-align: center;
-          cursor: pointer;
-          .body-font();
 
-          &.gux-selected,
-          &:hover {
-            color: @gux-grey-100;
-            background-color: @gux-blue-60;
-            border-radius: 4px;
-          }
+          button {
+            width: 66px;
+            height: 49px;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+            cursor: pointer;
+            background: none;
+            border: none;
+            outline: none;
+            .body-font();
 
-          &.gux-disabled {
-            color: @gux-black-90;
-            pointer-events: none;
-            background-color: @gux-grey-100;
+            &:focus {
+              background-color: @gux-grey-100;
+              border: 2px solid @gux-blue-60;
+              border-radius: 4px;
+            }
+
+            &.gux-selected,
+            &:hover {
+              color: @gux-grey-100;
+              background-color: @gux-blue-60;
+              border-radius: 4px;
+            }
+
+            &.gux-disabled {
+              color: @gux-black-90;
+              pointer-events: none;
+              background-color: @gux-grey-100;
+            }
           }
         }
       }

@@ -7,16 +7,14 @@
 
 ## Properties
 
-| Property            | Attribute   | Description                | Type          | Default     |
-| ------------------- | ----------- | -------------------------- | ------------- | ----------- |
-| `lastPickedMonth`   | --          |                            | `HTMLElement` | `undefined` |
-| `maxMonth`          | `max-month` | The max month selectable   | `string`      | `''`        |
-| `maxYear`           | `max-year`  | The max year selectable    | `string`      | `''`        |
-| `minMonth`          | `min-month` | The min month selectable   | `string`      | `''`        |
-| `minYear`           | `min-year`  | The min year selectable    | `string`      | `''`        |
-| `monthsObject`      | --          |                            | `object`      | `{}`        |
-| `monthsObjectShort` | --          |                            | `object`      | `{}`        |
-| `value`             | `value`     | The current selected month | `string`      | `''`        |
+| Property          | Attribute  | Description                | Type          | Default     |
+| ----------------- | ---------- | -------------------------- | ------------- | ----------- |
+| `lastPickedMonth` | --         |                            | `HTMLElement` | `undefined` |
+| `maxDate`         | `max-date` | The max date selectable    | `string`      | `''`        |
+| `minDate`         | `min-date` | The min date selectable    | `string`      | `''`        |
+| `monthsListLong`  | --         |                            | `string[]`    | `[]`        |
+| `monthsListShort` | --         |                            | `string[]`    | `[]`        |
+| `value`           | `value`    | The current selected month | `string`      | `''`        |
 
 
 ## Events
@@ -30,7 +28,7 @@
 
 ### `focusPreviewMonth() => Promise<void>`
 
-Focus the preview month
+Focus the preview date
 
 #### Returns
 
@@ -38,7 +36,7 @@ Type: `Promise<void>`
 
 
 
-### `resetCalendarView(value: string) => Promise<void>`
+### `resetCalendarView(value: Date) => Promise<void>`
 
 Reset calendar view to show first selected date
 
@@ -48,7 +46,7 @@ Type: `Promise<void>`
 
 
 
-### `setValue(month: string, year: string) => Promise<void>`
+### `setValue(value: Date) => Promise<void>`
 
 Sets new value and rerender the calendar
 

@@ -7,14 +7,13 @@
 
 ## Properties
 
-| Property   | Attribute   | Description                                     | Type      | Default |
-| ---------- | ----------- | ----------------------------------------------- | --------- | ------- |
-| `disabled` | `disabled`  | Indicate if the month picker is disabled or not | `boolean` | `false` |
-| `maxMonth` | `max-month` | The max month selectable                        | `string`  | `''`    |
-| `maxYear`  | `max-year`  | The max year selectable                         | `string`  | `''`    |
-| `minMonth` | `min-month` | The min month selectable                        | `string`  | `''`    |
-| `minYear`  | `min-year`  | The min year selectable                         | `string`  | `''`    |
-| `value`    | `value`     | The month picker current value                  | `string`  | `''`    |
+| Property   | Attribute  | Description                                     | Type      | Default     |
+| ---------- | ---------- | ----------------------------------------------- | --------- | ----------- |
+| `disabled` | `disabled` | Indicate if the month picker is disabled or not | `boolean` | `false`     |
+| `label`    | `label`    |                                                 | `string`  | `undefined` |
+| `maxDate`  | `max-date` | The max date selectable                         | `string`  | `''`        |
+| `minDate`  | `min-date` | The min date selectable                         | `string`  | `''`        |
+| `value`    | `value`    | The month picker current value                  | `string`  | `''`        |
 
 
 ## Events

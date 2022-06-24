@@ -11,16 +11,13 @@ describe('gux-month-picker-beta', () => {
 
   it('updates the month display when the month picker’s value property is set', async () => {
     const page = await newSparkE2EPage({
-      html: `<gux-month-picker-beta lang="en"></gux-month-picker-beta>`
+      html: `<gux-month-picker-beta lang="en" value="2022-01"></gux-month-picker-beta>`
     });
 
     const element = await page.find('gux-month-picker-beta');
 
-    element.setProperty('value', 'January 2022');
-    await page.waitForChanges();
-
-    const input = await element.find('pierce/span');
-    const value = await input.getProperty('innerHTML');
+    const span = await element.find('pierce/span');
+    const value = await span.getProperty('innerText');
     await a11yCheck(page);
     expect(value).toBe('January 2022');
   });

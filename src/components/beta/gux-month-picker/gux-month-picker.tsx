@@ -17,6 +17,8 @@ import { getDesiredLocale } from '../../../i18n';
 import { buildI18nForComponent, GetI18nValue } from '../../../i18n';
 import translationResources from './i18n/en.json';
 
+import { asIsoDate, fromIsoDate } from '../../../utils/date/iso-dates';
+
 @Component({
   styleUrl: 'gux-month-picker.less',
   tag: 'gux-month-picker-beta',
@@ -41,32 +43,29 @@ export class GuxMonthPicker {
   @Prop()
   disabled: boolean = false;
 
-  /**
-   * The min month selectable
-   */
   @Prop()
-  minMonth: string = '';
+  label: string;
 
   /**
-   * The max month selectable
+   * The min date selectable
    */
-  @Prop()
-  maxMonth: string = '';
+  @Prop({ mutable: true })
+  minDate: string = '';
 
   /**
-   * The min year selectable
+   * The max date selectable
    */
-  @Prop()
-  minYear: string = '';
-
-  /**
-   * The max year selectable
-   */
-  @Prop()
-  maxYear: string = '';
+  @Prop({ mutable: true })
+  maxDate: string = '';
 
   @State()
   active: boolean = false;
+
+  @State()
+  yearLabel: number;
+
+  @State()
+  monthLabel: string;
 
   /**
    * Triggered when user selects a month
@@ -84,10 +83,29 @@ export class GuxMonthPicker {
 
     if (!this.value) {
       const now = new Date();
-      const year = now.getFullYear();
-      const month = now.toLocaleString(this.locale, { month: 'long' });
-      const monthNameFormatted = month.charAt(0).toUpperCase() + month.slice(1);
-      this.value = `${monthNameFormatted} ${year}`;
+      now.setHours(0, 0, 0, 0);
+      this.value = asIsoDate(now);
+    } else {
+      this.value = this.value.length > 7 ? this.value : this.value + '-01';
+    }
+
+    const month = new Date(fromIsoDate(this.value).getTime());
+    month.setMonth(month.getMonth());
+    const monthName = month.toLocaleString(this.locale, { month: 'long' });
+    this.monthLabel = monthName.charAt(0).toUpperCase() + monthName.slice(1);
+    this.yearLabel = month.getFullYear();
+  }
+
+  @OnClickOutside({ triggerEvents: 'mousedown' })
+  onClickOutside() {
+    this.active = false;
+  }
+
+  @Watch('active')
+  watchActiveCalendar(active: boolean) {
+    if (active) {
+      const dateValue = fromIsoDate(this.value);
+      void this.monthCalendarElement.resetCalendarView(dateValue);
     }
   }
 
@@ -101,27 +119,18 @@ export class GuxMonthPicker {
     }
   }
 
-  @OnClickOutside({ triggerEvents: 'mousedown' })
-  onClickOutside() {
-    this.active = false;
-  }
-
-  @Watch('active')
-  watchActiveCalendar(active: boolean) {
-    if (active) {
-      void this.monthCalendarElement.resetCalendarView(this.value);
-    }
-  }
-
   onMonthCalendarSelect(inputEvent: Event) {
     const monthCalendar = inputEvent.target as HTMLGuxMonthCalendarBetaElement;
-    const value = monthCalendar.value.split(' ');
-    this.value = monthCalendar.monthsObject[value[0]]
-      ? // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        `${monthCalendar.monthsObject[value[0]].name} ${value[1]}`
-      : this.value;
+    const value = monthCalendar.value;
+    this.value = value;
+    let monthIndex = value.split('-')[1];
+    if (monthIndex[0] === '0') {
+      monthIndex = (parseInt(monthIndex[1]) - 1).toString();
+    }
+    this.monthLabel = monthCalendar.monthsListLong[monthIndex];
+    this.yearLabel = parseInt(value.split('-')[0]);
     inputEvent.stopPropagation(); // Don't let both events bubble.
-    this.input.emit(this.value);
+    this.input.emit(this.value.slice(0, -3));
     this.active = false;
   }
 
@@ -146,10 +155,8 @@ export class GuxMonthPicker {
         }
         onInput={(event: CustomEvent) => this.onMonthCalendarSelect(event)}
         value={this.value}
-        minMonth={this.minMonth}
-        minYear={this.minYear}
-        maxMonth={this.maxMonth}
-        maxYear={this.maxYear}
+        minDate={this.minDate}
+        maxDate={this.maxDate}
       />
     ) as JSX.Element;
   }
@@ -163,9 +170,18 @@ export class GuxMonthPicker {
           'gux-disabled': this.disabled
         }}
       >
+        <label class="gux-month-picker-label">
+          {this.label}
+          <span class="gux-sr-only">
+            {this.monthLabel} {this.yearLabel}
+          </span>
+        </label>
         <div class="gux-month-picker" onClick={() => this.toggleCalendar()}>
-          <span class="gux-month-display" aria-label={this.value}>
-            {this.value}
+          <span
+            class="gux-month-display"
+            aria-label={`${this.monthLabel} ${this.yearLabel}`}
+          >
+            {this.monthLabel} {this.yearLabel}
           </span>
           {this.renderCalendarToggleButton()}
         </div>

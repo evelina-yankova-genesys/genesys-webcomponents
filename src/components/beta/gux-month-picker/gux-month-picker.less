@@ -1,5 +1,6 @@
 @import (reference) '../../../style/mixins.less';
 @import (reference) '../../../style/spacing.less';
+@import (reference) '../../../style/typography.less';
 
 .gux-month-picker-beta {
   &.gux-disabled {
@@ -9,6 +10,10 @@
     .gux-month-picker {
       opacity: 0.5;
     }
+  }
+
+  .gux-month-picker-label {
+    .gux-label();
   }
 
   .gux-month-picker {
@@ -74,4 +79,8 @@
       display: flex;
     }
   }
+}
+
+.gux-sr-only {
+  .gux-sr-only();
 }
