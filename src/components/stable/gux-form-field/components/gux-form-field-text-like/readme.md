@@ -10,9 +10,9 @@
 | Property        | Attribute        | Description | Type                                    | Default     |
 | --------------- | ---------------- | ----------- | --------------------------------------- | ----------- |
 | `clearable`     | `clearable`      |             | `boolean`                               | `undefined` |
+| `displayPrefix` | `display-prefix` |             | `boolean`                               | `undefined` |
+| `displaySuffix` | `display-suffix` |             | `boolean`                               | `undefined` |
 | `labelPosition` | `label-position` |             | `"above" \| "beside" \| "screenreader"` | `undefined` |
-| `prefix`        | `prefix`         |             | `boolean`                               | `undefined` |
-| `suffix`        | `suffix`         |             | `boolean`                               | `undefined` |
 
 
 ## Slots
@@ -22,8 +22,8 @@
 | `"error"`  | Optional slot for error message |
 | `"input"`  | Required slot for input tag     |
 | `"label"`  | Required slot for label tag     |
-| `"prefix"` | Optionsal slot for prefix       |
-| `"suffix"` | Optionsal slot for suffix       |
+| `"prefix"` | Optional slot for prefix        |
+| `"suffix"` | Optional slot for suffix        |
 
 
 ## Dependencies

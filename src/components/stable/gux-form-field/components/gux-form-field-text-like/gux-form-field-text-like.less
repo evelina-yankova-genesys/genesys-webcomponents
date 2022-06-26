@@ -43,7 +43,7 @@
 }
 
 ::slotted(span) {
-  color: @gux-black-100;
+  color: @gux-black-50;
 }
 
 .gux-input-and-error-container {
@@ -84,6 +84,10 @@
       &:focus-within {
         border-color: @gux-blue-60;
         .focus-ring();
+      }
+
+      .gux-sr-only {
+        .gux-sr-only();
       }
     }
 

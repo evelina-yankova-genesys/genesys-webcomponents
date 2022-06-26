@@ -47,10 +47,10 @@ export class GuxFormFieldTextLike {
   labelPosition: GuxFormFieldLabelPosition;
 
   @Prop()
-  prefix: boolean;
+  displayPrefix: boolean;
 
   @Prop()
-  suffix: boolean;
+  displaySuffix: boolean;
 
   @State()
   private computedLabelPosition: GuxFormFieldLabelPosition = 'above';
@@ -86,6 +86,30 @@ export class GuxFormFieldTextLike {
     this.requiredObserver.disconnect();
   }
 
+  private renderSrText(): JSX.Element {
+    let placeholderText = '';
+    if (this.root.querySelector('input')) {
+      placeholderText = this.root.querySelector('input').placeholder;
+    }
+
+    let srText = '';
+    if (this.displayPrefix && this.root.querySelector('span[slot="prefix"]')) {
+      srText = `${
+        this.root.querySelector('span[slot="prefix"]').textContent
+      } ${placeholderText}`;
+    } else if (
+      this.displaySuffix &&
+      this.root.querySelector('span[slot="suffix"]')
+    ) {
+      srText = `${placeholderText} ${
+        this.root.querySelector('span[slot="suffix"]').textContent
+      }`;
+    }
+    return (
+      <div class="gux-sr-only">{srText.length && srText}</div>
+    ) as JSX.Element;
+  }
+
   render(): JSX.Element {
     return (
       <GuxFormFieldContainer labelPosition={this.computedLabelPosition}>
@@ -106,13 +130,14 @@ export class GuxFormFieldTextLike {
               class={{
                 'gux-input-container': true,
                 'gux-disabled': this.disabled,
-                prefix: this.prefix,
-                suffix: this.suffix
+                prefix: this.displayPrefix,
+                suffix: this.displaySuffix
               }}
             >
               <slot name="prefix" />
               <slot name="input" />
               <slot name="suffix" />
+              {this.renderSrText()}
               {this.clearable && this.hasContent && !this.disabled && (
                 <gux-form-field-input-clear-button
                   onClick={() => clearInput(this.input)}
