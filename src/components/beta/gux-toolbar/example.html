@@ -4,6 +4,15 @@
 
 <gux-toolbar-beta>
   <div slot="searchFilter">
+    <gux-form-field-search>
+      <input
+        slot="input"
+        class="search"
+        type="search"
+        name="a-3"
+        placeholder="Enter search"
+      />
+    </gux-form-field-search>
     <gux-toolbar-action icon="filter">Filter</gux-toolbar-action>
   </div>
 
@@ -15,8 +24,6 @@
     <gux-toolbar-action action="export"></gux-toolbar-action>
     <gux-toolbar-action action="refresh"></gux-toolbar-action>
     <gux-toolbar-action action="revert"></gux-toolbar-action>
-    <gux-toolbar-action action="import"></gux-toolbar-action>
-    <gux-toolbar-action action="add"></gux-toolbar-action>
     <gux-toolbar-action icon="cog">Customize</gux-toolbar-action>
     <gux-toolbar-menu-button>
       <gux-list-item onclick="notify(event)">Test 1</gux-list-item>
@@ -28,3 +35,9 @@
     <gux-toolbar-action primary icon="add">Add</gux-toolbar-action>
   </div>
 </gux-toolbar-beta>
+
+<style>
+  .search {
+    min-width: 260px;
+  }
+</style>
