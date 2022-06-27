@@ -8,13 +8,15 @@
   </div>
 
   <div slot="contextual">
-    <gux-toolbar-action icon="delete">Delete</gux-toolbar-action>
+    <gux-toolbar-action action="delete"></gux-toolbar-action>
   </div>
 
   <div slot="permanent">
-    <gux-toolbar-action icon="delete">Delete</gux-toolbar-action>
-    <gux-toolbar-action icon="refresh">Refresh</gux-toolbar-action>
-    <gux-toolbar-action icon="export">Export</gux-toolbar-action>
+    <gux-toolbar-action action="export"></gux-toolbar-action>
+    <gux-toolbar-action action="refresh"></gux-toolbar-action>
+    <gux-toolbar-action action="revert"></gux-toolbar-action>
+    <gux-toolbar-action action="import"></gux-toolbar-action>
+    <gux-toolbar-action action="add"></gux-toolbar-action>
     <gux-toolbar-action icon="cog">Customize</gux-toolbar-action>
     <gux-toolbar-menu-button>
       <gux-list-item onclick="notify(event)">Test 1</gux-list-item>

@@ -7,23 +7,11 @@
 
 ## Properties
 
-| Property  | Attribute | Description | Type      | Default     |
-| --------- | --------- | ----------- | --------- | ----------- |
-| `icon`    | `icon`    |             | `string`  | `undefined` |
-| `primary` | `primary` |             | `boolean` | `undefined` |
-
-
-## Methods
-
-### `guxGetActiveAction() => Promise<boolean>`
-
-
-
-#### Returns
-
-Type: `Promise<boolean>`
-
-
+| Property  | Attribute | Description | Type                                                                 | Default     |
+| --------- | --------- | ----------- | -------------------------------------------------------------------- | ----------- |
+| `action`  | `action`  |             | `"add" \| "delete" \| "export" \| "import" \| "refresh" \| "revert"` | `undefined` |
+| `icon`    | `icon`    |             | `string`                                                             | `undefined` |
+| `primary` | `primary` |             | `boolean`                                                            | `undefined` |
 
 
 ## Dependencies

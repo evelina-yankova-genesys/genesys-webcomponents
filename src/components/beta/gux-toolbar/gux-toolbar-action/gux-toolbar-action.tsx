@@ -1,20 +1,17 @@
-import {
-  Component,
-  Element,
-  State,
-  JSX,
-  h,
-  Prop,
-  Method,
-  Listen
-} from '@stencil/core';
+import { Component, Element, State, JSX, h, Prop, Listen } from '@stencil/core';
 import { trackComponent } from '../../../../usage-tracking';
+import { GuxToolbarActionTypes } from './gux-toolbar-action.types';
+
+import { buildI18nForComponent, GetI18nValue } from '../../../../i18n';
+import translationResources from '../i18n/en.json';
 
 @Component({
   tag: 'gux-toolbar-action',
   shadow: true
 })
 export class GuxToolbarAction {
+  private i18n: GetI18nValue;
+
   /**
    * Reference to the host element.
    */
@@ -33,6 +30,9 @@ export class GuxToolbarAction {
   @Prop()
   icon: string;
 
+  @Prop()
+  action: GuxToolbarActionTypes;
+
   @State()
   iconOnly: boolean = false;
 
@@ -45,12 +45,6 @@ export class GuxToolbarAction {
     } else {
       this.iconOnly = false;
     }
-  }
-
-  // eslint-disable-next-line @typescript-eslint/require-await
-  @Method()
-  async guxGetActiveAction() {
-    return this.active;
   }
 
   private onSlotChange(event: Event) {
@@ -83,16 +77,39 @@ export class GuxToolbarAction {
     }
   }
 
-  componentWillLoad() {
-    trackComponent(this.root);
+  private renderActionType(): JSX.Element {
+    return (
+      <gux-button accent={this.primary ? 'primary' : 'secondary'} type="button">
+        <gux-icon
+          iconName={this.action}
+          screenreaderText={this.i18n(this.action)}
+        />
+        {!this.iconOnly ? (
+          <span aria-hidden="true">
+            {this.action.charAt(0).toUpperCase() + this.action.slice(1)}
+          </span>
+        ) : null}
+      </gux-button>
+    ) as JSX.Element;
   }
 
-  render(): JSX.Element {
+  private renderCustomActionType(): JSX.Element {
     return (
-      <gux-button accent={this.primary ? 'primary' : null} type="button">
+      <gux-button accent={this.primary ? 'primary' : 'secondary'} type="button">
         {this.renderIcon()}
         {this.renderActionTitle()}
       </gux-button>
     ) as JSX.Element;
+  }
+
+  async componentWillLoad(): Promise<void> {
+    trackComponent(this.root);
+    this.i18n = await buildI18nForComponent(this.root, translationResources);
+  }
+
+  render(): JSX.Element {
+    return this.action
+      ? this.renderActionType()
+      : this.renderCustomActionType();
   }
 }
