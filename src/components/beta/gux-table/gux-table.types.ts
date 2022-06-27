@@ -9,6 +9,10 @@ export interface GuxTableSortState {
   sortDirection: string;
 }
 
+export interface GuxTableExpandedRowState {
+  expanded: boolean;
+}
+
 export interface GuxTableSelectedState {
   selectedRowIds: string[];
 }

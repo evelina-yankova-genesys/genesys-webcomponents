@@ -24,7 +24,8 @@ import tableResources from './i18n/en.json';
 import {
   GuxTableColumnResizeState,
   GuxTableSortState,
-  GuxTableSelectedState
+  GuxTableSelectedState,
+  GuxTableExpandedRowState
 } from './gux-table.types';
 
 const COL_RESIZE_HANDLE_WIDTH = 3;
@@ -106,6 +107,11 @@ export class GuxTable {
   @Event() guxsortchanged: EventEmitter<GuxTableSortState>;
 
   /**
+   * Triggers when a table row with a nested expandable-row is clicked.
+   */
+  @Event() guxexpandedrow: EventEmitter<GuxTableExpandedRowState>;
+
+  /**
    * Indicates that table should have resizable columns
    */
   @Prop()
@@ -125,6 +131,7 @@ export class GuxTable {
 
     this.prepareSortableColumns();
     this.prepareSelectableRows();
+    this.prepareExpandableRows();
     this.checkHorizontalScroll();
     this.checkVerticalScroll();
 
@@ -225,9 +232,9 @@ export class GuxTable {
     );
   }
 
-  private get rowExpandable(): Array<HTMLGuxExpandableRowElement> {
+  private get expandableRow(): Array<HTMLElement> {
     return Array.from(
-      this.slottedTable.querySelectorAll('tbody tr td gux-row-expandable')
+      this.slottedTable.querySelectorAll('tbody tr td gux-expandable-row')
     );
   }
 
@@ -478,6 +485,17 @@ export class GuxTable {
       window.getComputedStyle(element).getPropertyValue('width').split('px')[0],
       10
     );
+  }
+
+  private prepareExpandableRows(): void {
+    //retrieve all expandable row elements.
+    const expandableRows = this.expandableRow;
+
+    expandableRows.forEach((row: HTMLElement) => {
+      row.onclick = () => {
+        this.guxexpandedrow.emit({ expanded: true });
+      };
+    });
   }
 
   /******************************* Sortable Columns *******************************/

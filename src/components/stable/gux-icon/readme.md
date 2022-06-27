@@ -35,6 +35,7 @@
  - [gux-dropdown](../gux-dropdown)
  - [gux-dropdown-legacy](../../legacy/gux-dropdown-legacy)
  - [gux-error-message-beta](../../beta/gux-error-message-beta)
+ - [gux-expandable-row](../../beta/gux-table/gux-expandable-row)
  - [gux-form-field-checkbox](../gux-form-field/components/gux-form-field-checkbox)
  - [gux-form-field-color](../gux-form-field/components/gux-form-field-color)
  - [gux-form-field-input-clear-button](../gux-form-field/helper-components/gux-form-field-input-clear-button)
@@ -86,6 +87,7 @@ graph TD;
   gux-dropdown --> gux-icon
   gux-dropdown-legacy --> gux-icon
   gux-error-message-beta --> gux-icon
+  gux-expandable-row --> gux-icon
   gux-form-field-checkbox --> gux-icon
   gux-form-field-color --> gux-icon
   gux-form-field-input-clear-button --> gux-icon

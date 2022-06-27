@@ -17,10 +17,11 @@
 
 ## Events
 
-| Event                 | Description                                               | Type                                 |
-| --------------------- | --------------------------------------------------------- | ------------------------------------ |
-| `guxselectionchanged` | Triggers when table row was selected/unselected           | `CustomEvent<GuxTableSelectedState>` |
-| `guxsortchanged`      | Triggers when the sorting of the table column is changed. | `CustomEvent<GuxTableSortState>`     |
+| Event                 | Description                                                        | Type                                    |
+| --------------------- | ------------------------------------------------------------------ | --------------------------------------- |
+| `guxexpandedrow`      | Triggers when a table row with a nested expandable-row is clicked. | `CustomEvent<GuxTableExpandedRowState>` |
+| `guxselectionchanged` | Triggers when table row was selected/unselected                    | `CustomEvent<GuxTableSelectedState>`    |
+| `guxsortchanged`      | Triggers when the sorting of the table column is changed.          | `CustomEvent<GuxTableSortState>`        |
 
 
 ## Methods

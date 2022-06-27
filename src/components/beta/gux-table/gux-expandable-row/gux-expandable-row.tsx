@@ -8,28 +8,26 @@ import { randomHTMLId } from '../../../../utils/dom/random-html-id';
   shadow: true
 })
 export class GuxExpandableRow {
-  private buttonElement: HTMLButtonElement;
-
   @Element()
   root: HTMLElement;
 
   private id: string = randomHTMLId('gux-expandable-row');
 
-  @Prop()
+  @Prop({ mutable: true })
   expanded: boolean = false;
 
-  @Listen('guxexpanded')
+  @Listen('guxexpandedrow', { target: 'body' })
   onCheck(event: CustomEvent): void {
     event.stopPropagation();
-
     this.expanded = !this.expanded;
-    console.log('expanded');
   }
 
   render(): JSX.Element {
     return (
       <button type="button" id={this.id} aria-expanded={this.expanded}>
-        <slot />
+        <gux-icon
+          iconName={this.expanded ? 'arrow-solid-up' : 'arrow-solid-down'}
+        ></gux-icon>
       </button>
     ) as JSX.Element;
   }
