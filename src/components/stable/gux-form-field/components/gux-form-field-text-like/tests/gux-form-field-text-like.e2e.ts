@@ -93,7 +93,7 @@ describe('gux-form-field-text-like', () => {
 
     describe('prefix', () => {
       const html = `
-        <gux-form-field-text-like lang="en" prefix>
+        <gux-form-field-text-like lang="en">
           <span slot="prefix">Prefix</span>
           <input slot="input" type="text" value="Sample text"/>
           <label slot="label">Label</label>
@@ -120,7 +120,7 @@ describe('gux-form-field-text-like', () => {
 
     describe('suffix', () => {
       const html = `
-        <gux-form-field-text-like lang="en" suffix>
+        <gux-form-field-text-like lang="en">
           <input slot="input" type="text" value="Sample text"/>
           <span slot="suffix">Suffix</span>
           <label slot="label">Label</label>

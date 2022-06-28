@@ -54,7 +54,7 @@ describe('gux-form-field-text-like', () => {
     describe('prefix', () => {
       it('should render component as expected', async () => {
         const html = `
-          <gux-form-field-text-like prefix>
+          <gux-form-field-text-like>
             <span slot="prefix">Prefix</span>
             <input slot="input" type="text" value="Sample text"/>
             <label slot="label">Label</label>
@@ -69,7 +69,7 @@ describe('gux-form-field-text-like', () => {
     describe('suffix', () => {
       it('should render component as expected', async () => {
         const html = `
-          <gux-form-field-text-like suffix>
+          <gux-form-field-text-like>
             <input slot="input" type="text" value="Sample text"/>
             <span slot="suffix">Suffix</span>
             <label slot="label">Label</label>

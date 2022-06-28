@@ -513,7 +513,7 @@ exports[`gux-form-field-text-like #render label-position should render component
 `;
 
 exports[`gux-form-field-text-like #render prefix should render component as expected 1`] = `
-<gux-form-field-text-like prefix="">
+<gux-form-field-text-like>
   <mock:shadow-root>
     <div class="gux-above gux-form-field-container">
       <div class="gux-above gux-form-field-label">
@@ -521,12 +521,12 @@ exports[`gux-form-field-text-like #render prefix should render component as expe
       </div>
       <div class="gux-input-and-error-container">
         <div class="gux-input">
-          <div class="gux-input-container">
+          <div class="gux-input-container prefix">
             <slot name="prefix"></slot>
             <slot name="input"></slot>
             <slot name="suffix"></slot>
             <div class="gux-sr-only">
-              0
+              Prefix
             </div>
           </div>
         </div>
@@ -550,7 +550,7 @@ exports[`gux-form-field-text-like #render prefix should render component as expe
 `;
 
 exports[`gux-form-field-text-like #render suffix should render component as expected 1`] = `
-<gux-form-field-text-like suffix="">
+<gux-form-field-text-like>
   <mock:shadow-root>
     <div class="gux-above gux-form-field-container">
       <div class="gux-above gux-form-field-label">
@@ -558,12 +558,12 @@ exports[`gux-form-field-text-like #render suffix should render component as expe
       </div>
       <div class="gux-input-and-error-container">
         <div class="gux-input">
-          <div class="gux-input-container">
+          <div class="gux-input-container suffix">
             <slot name="prefix"></slot>
             <slot name="input"></slot>
             <slot name="suffix"></slot>
             <div class="gux-sr-only">
-              0
+              Suffix
             </div>
           </div>
         </div>

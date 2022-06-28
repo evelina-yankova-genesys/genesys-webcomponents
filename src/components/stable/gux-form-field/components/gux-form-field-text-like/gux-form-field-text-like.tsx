@@ -46,11 +46,11 @@ export class GuxFormFieldTextLike {
   @Prop()
   labelPosition: GuxFormFieldLabelPosition;
 
-  @Prop()
-  displayPrefix: boolean;
+  @State()
+  private hasPrefix: boolean;
 
-  @Prop()
-  displaySuffix: boolean;
+  @State()
+  private hasSuffix: boolean;
 
   @State()
   private computedLabelPosition: GuxFormFieldLabelPosition = 'above';
@@ -77,6 +77,8 @@ export class GuxFormFieldTextLike {
     this.setLabel();
 
     this.hasError = hasErrorSlot(this.root);
+    this.hasPrefix = Boolean(this.root.querySelector('[slot="prefix"]'));
+    this.hasSuffix = Boolean(this.root.querySelector('[slot="suffix"]'));
 
     trackComponent(this.root, { variant: this.variant });
   }
@@ -93,12 +95,12 @@ export class GuxFormFieldTextLike {
     }
 
     let srText = '';
-    if (this.displayPrefix && this.root.querySelector('span[slot="prefix"]')) {
+    if (this.hasPrefix && this.root.querySelector('span[slot="prefix"]')) {
       srText = `${
         this.root.querySelector('span[slot="prefix"]').textContent
       } ${placeholderText}`;
     } else if (
-      this.displaySuffix &&
+      this.hasSuffix &&
       this.root.querySelector('span[slot="suffix"]')
     ) {
       srText = `${placeholderText} ${
@@ -130,8 +132,8 @@ export class GuxFormFieldTextLike {
               class={{
                 'gux-input-container': true,
                 'gux-disabled': this.disabled,
-                prefix: this.displayPrefix,
-                suffix: this.displaySuffix
+                prefix: this.hasPrefix,
+                suffix: this.hasSuffix
               }}
             >
               <slot name="prefix" />

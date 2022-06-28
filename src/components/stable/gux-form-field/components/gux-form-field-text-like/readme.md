@@ -10,8 +10,6 @@
 | Property        | Attribute        | Description | Type                                    | Default     |
 | --------------- | ---------------- | ----------- | --------------------------------------- | ----------- |
 | `clearable`     | `clearable`      |             | `boolean`                               | `undefined` |
-| `displayPrefix` | `display-prefix` |             | `boolean`                               | `undefined` |
-| `displaySuffix` | `display-suffix` |             | `boolean`                               | `undefined` |
 | `labelPosition` | `label-position` |             | `"above" \| "beside" \| "screenreader"` | `undefined` |
 
 

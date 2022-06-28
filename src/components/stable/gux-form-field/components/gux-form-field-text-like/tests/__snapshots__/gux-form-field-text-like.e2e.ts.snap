@@ -338,7 +338,7 @@ exports[`gux-form-field-text-like #render label-position should render component
 </div>
 `;
 
-exports[`gux-form-field-text-like #render prefix should render component as expected 1`] = `"<gux-form-field-text-like lang=\\"en\\" prefix=\\"\\" hydrated=\\"\\"> <span slot=\\"prefix\\">Prefix</span> <input slot=\\"input\\" type=\\"text\\" value=\\"Sample text\\" id=\\"gux-form-field-input-i\\"> <label slot=\\"label\\" for=\\"gux-form-field-input-i\\">Label</label> </gux-form-field-text-like>"`;
+exports[`gux-form-field-text-like #render prefix should render component as expected 1`] = `"<gux-form-field-text-like lang=\\"en\\" hydrated=\\"\\"> <span slot=\\"prefix\\">Prefix</span> <input slot=\\"input\\" type=\\"text\\" value=\\"Sample text\\" id=\\"gux-form-field-input-i\\"> <label slot=\\"label\\" for=\\"gux-form-field-input-i\\">Label</label> </gux-form-field-text-like>"`;
 
 exports[`gux-form-field-text-like #render prefix should render component as expected 2`] = `
 <div class="gux-beside gux-form-field-container">
@@ -347,12 +347,12 @@ exports[`gux-form-field-text-like #render prefix should render component as expe
   </div>
   <div class="gux-input-and-error-container">
     <div class="gux-input">
-      <div class="gux-input-container">
+      <div class="gux-input-container prefix">
         <slot name="prefix"></slot>
         <slot name="input"></slot>
         <slot name="suffix"></slot>
         <div class="gux-sr-only">
-          0
+          Prefix
         </div>
       </div>
     </div>
@@ -366,7 +366,7 @@ exports[`gux-form-field-text-like #render prefix should render component as expe
 </div>
 `;
 
-exports[`gux-form-field-text-like #render suffix should render component as expected 1`] = `"<gux-form-field-text-like lang=\\"en\\" suffix=\\"\\" hydrated=\\"\\"> <input slot=\\"input\\" type=\\"text\\" value=\\"Sample text\\" id=\\"gux-form-field-input-i\\"> <span slot=\\"suffix\\">Suffix</span> <label slot=\\"label\\" for=\\"gux-form-field-input-i\\">Label</label> </gux-form-field-text-like>"`;
+exports[`gux-form-field-text-like #render suffix should render component as expected 1`] = `"<gux-form-field-text-like lang=\\"en\\" hydrated=\\"\\"> <input slot=\\"input\\" type=\\"text\\" value=\\"Sample text\\" id=\\"gux-form-field-input-i\\"> <span slot=\\"suffix\\">Suffix</span> <label slot=\\"label\\" for=\\"gux-form-field-input-i\\">Label</label> </gux-form-field-text-like>"`;
 
 exports[`gux-form-field-text-like #render suffix should render component as expected 2`] = `
 <div class="gux-beside gux-form-field-container">
@@ -375,12 +375,12 @@ exports[`gux-form-field-text-like #render suffix should render component as expe
   </div>
   <div class="gux-input-and-error-container">
     <div class="gux-input">
-      <div class="gux-input-container">
+      <div class="gux-input-container suffix">
         <slot name="prefix"></slot>
         <slot name="input"></slot>
         <slot name="suffix"></slot>
         <div class="gux-sr-only">
-          0
+          Suffix
         </div>
       </div>
     </div>
