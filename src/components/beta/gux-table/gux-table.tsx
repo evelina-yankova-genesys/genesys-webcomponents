@@ -498,19 +498,29 @@ export class GuxTable {
         if (row.hasAttribute('expanded')) {
           const expandedState = row.getAttribute('expanded');
           let newExpandedState = null;
+          let displayRows = null;
 
           switch (expandedState) {
             case '':
             case 'true':
               newExpandedState = 'false';
+              displayRows = 'hidden';
               break;
             case 'false':
               newExpandedState = 'true';
+              displayRows = 'show';
               break;
           }
+          //retrieve all rows with an id of expand.
+          const retrieveAllExpandable =
+            document.querySelectorAll("tr[id^='expand']");
 
           //emit expanded state value
-          this.guxexpandedrow.emit({ expanded: newExpandedState });
+          this.guxexpandedrow.emit({
+            expanded: newExpandedState,
+            expandableRowsCount: retrieveAllExpandable.length,
+            displayRows: displayRows
+          });
         }
       };
     });

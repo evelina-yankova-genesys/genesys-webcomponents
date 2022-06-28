@@ -11,6 +11,8 @@ export interface GuxTableSortState {
 
 export interface GuxTableExpandedRowState {
   expanded: boolean;
+  expandableRowsCount: number;
+  displayRows: string;
 }
 
 export interface GuxTableSelectedState {

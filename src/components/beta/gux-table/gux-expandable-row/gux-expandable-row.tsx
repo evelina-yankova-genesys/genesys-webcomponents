@@ -1,4 +1,4 @@
-import { Component, Element, Prop, JSX, h, Listen } from '@stencil/core';
+import { Component, Element, Prop, JSX, h, State, Listen } from '@stencil/core';
 
 import { randomHTMLId } from '../../../../utils/dom/random-html-id';
 
@@ -13,20 +13,30 @@ export class GuxExpandableRow {
 
   private id: string = randomHTMLId('gux-expandable-row');
 
-  @Prop({ mutable: true })
+  @Prop()
   expanded: boolean = false;
 
+  @State()
+  rowCount: number;
+
   @Listen('guxexpandedrow', { target: 'body' })
-  onCheck(event: CustomEvent): void {
+  onExpanded(event: CustomEvent): void {
     event.stopPropagation();
-    this.expanded = !this.expanded;
+    //set rowCount
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    this.rowCount = event.detail.expandableRowsCount;
   }
 
   render(): JSX.Element {
     return (
-      <button type="button" id={this.id} aria-expanded={this.expanded}>
+      <button
+        type="button"
+        id={this.id}
+        aria-label={`${this.rowCount}` + ' more nested rows'}
+        aria-expanded={this.expanded ? 'true' : 'false'}
+      >
         <gux-icon
-          iconName={this.expanded ? 'arrow-solid-up' : 'arrow-solid-down'}
+          iconName={this.expanded ? 'arrow-solid-down' : 'arrow-solid-right'}
         ></gux-icon>
       </button>
     ) as JSX.Element;

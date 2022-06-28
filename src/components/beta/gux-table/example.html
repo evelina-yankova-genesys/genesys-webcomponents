@@ -14,7 +14,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><gux-expandable-row expanded="true" /></td>
+        <td><gux-expandable-row expanded="false" /></td>
         <td>John</td>
         <td>Doe</td>
         <td>
@@ -29,7 +29,7 @@
         <td data-cell-numeric>25</td>
         <td data-cell-action>Delete</td>
       </tr>
-      <tr>
+      <tr id="expand1" class="hidden">
         <td></td>
         <td>Jane</td>
         <td>Doe</td>
@@ -45,7 +45,7 @@
         <td data-cell-numeric>23</td>
         <td data-cell-action>Delete</td>
       </tr>
-      <tr>
+      <tr id="expand2" class="hidden">
         <td></td>
         <td>Jane</td>
         <td>Doe</td>
@@ -61,7 +61,7 @@
         <td data-cell-numeric>21</td>
         <td data-cell-action>Delete</td>
       </tr>
-      <tr>
+      <tr id="expand3" class="hidden">
         <td></td>
         <td>Jane</td>
         <td>Doe</td>
@@ -87,9 +87,14 @@
 
     table.addEventListener('guxexpandedrow',
     (event) => {
-      const {expanded} = event.detail;
-      const column = table.querySelector(`tbody tr td gux-expandable-row`);
-      column.setAttribute('expanded', expanded);
+      const {expanded, displayRows} = event.detail;
+      const expandableRow = table.querySelector(`tbody tr td gux-expandable-row`);
+      expandableRow.setAttribute('expanded', expanded);
+
+      const showRows = table.querySelectorAll(`tr[id^='expand']`);
+      showRows.forEach(row => {
+        row.setAttribute('class', displayRows);
+      })
     })
   })()"
 >
