@@ -1,6 +1,6 @@
 <h1>gux-table-beta</h1>
 <h2>Data table</h2>
-<gux-table-beta object-table>
+<gux-table-beta object-table id="expandable-table">
   <table slot="data">
     <thead>
       <tr>
@@ -14,7 +14,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><gux-expandable-row /></td>
+        <td><gux-expandable-row expanded="true" /></td>
         <td>John</td>
         <td>Doe</td>
         <td>
@@ -80,6 +80,23 @@
     </tbody>
   </table>
 </gux-table-beta>
+
+<style
+  onload="(function () {
+    const table = document.querySelector('#expandable-table');
+
+    table.addEventListener('guxexpandedrow',
+    (event) => {
+      const {expanded} = event.detail;
+      const column = table.querySelector(`tbody tr td gux-expandable-row`);
+      column.setAttribute('expanded', expanded);
+    })
+  })()"
+>
+  .not-used {
+    -custom-noop: noop;
+  }
+</style>
 
 <h2>Data table compact</h2>
 <gux-table-beta compact>

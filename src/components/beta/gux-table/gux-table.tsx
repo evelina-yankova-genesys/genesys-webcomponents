@@ -487,13 +487,31 @@ export class GuxTable {
     );
   }
 
+  /******************************* Expandable Rows *******************************/
+
   private prepareExpandableRows(): void {
     //retrieve all expandable row elements.
     const expandableRows = this.expandableRow;
 
     expandableRows.forEach((row: HTMLElement) => {
       row.onclick = () => {
-        this.guxexpandedrow.emit({ expanded: true });
+        if (row.hasAttribute('expanded')) {
+          const expandedState = row.getAttribute('expanded');
+          let newExpandedState = null;
+
+          switch (expandedState) {
+            case '':
+            case 'true':
+              newExpandedState = 'false';
+              break;
+            case 'false':
+              newExpandedState = 'true';
+              break;
+          }
+
+          //emit expanded state value
+          this.guxexpandedrow.emit({ expanded: newExpandedState });
+        }
       };
     });
   }
