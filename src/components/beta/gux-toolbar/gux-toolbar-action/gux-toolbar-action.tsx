@@ -81,7 +81,7 @@ export class GuxToolbarAction {
     return (
       <gux-button accent={this.primary ? 'primary' : 'secondary'} type="button">
         <gux-icon
-          iconName={this.action}
+          iconName={this.action == 'revert' ? 'reset' : this.action}
           screenreaderText={this.i18n(this.action)}
         />
         {!this.iconOnly ? (

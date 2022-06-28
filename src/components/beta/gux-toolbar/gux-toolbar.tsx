@@ -20,6 +20,7 @@ import {
 const MIN_SPACING = 72;
 
 @Component({
+  styleUrl: 'gux-toolbar.less',
   tag: 'gux-toolbar-beta',
   shadow: true
 })
