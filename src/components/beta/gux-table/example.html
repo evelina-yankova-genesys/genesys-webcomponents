@@ -14,7 +14,12 @@
     </thead>
     <tbody>
       <tr>
-        <td><gux-expandable-row expanded="false" /></td>
+        <td>
+          <gux-expandable-row
+            expanded="false"
+            rows="#expand1,#expand2,#expand3"
+          />
+        </td>
         <td>John</td>
         <td>Doe</td>
         <td>
@@ -77,6 +82,75 @@
         <td data-cell-numeric>23</td>
         <td data-cell-action>Delete</td>
       </tr>
+      <tr>
+        <td></td>
+        <td>Jane</td>
+        <td>Doe</td>
+        <td>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+          culpa qui officia deserunt mollit anim id est laborum.
+        </td>
+        <td data-cell-numeric>23</td>
+        <td data-cell-action>Delete</td>
+      </tr>
+      <tr>
+        <td>
+          <gux-expandable-row
+            expanded="false"
+            rows="#expand5,#expand6"
+          ></gux-expandable-row>
+        </td>
+        <td>Jane</td>
+        <td>Doe</td>
+        <td>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+          culpa qui officia deserunt mollit anim id est laborum.
+        </td>
+        <td data-cell-numeric>23</td>
+        <td data-cell-action>Delete</td>
+      </tr>
+      <tr id="expand5">
+        <td></td>
+        <td>Jane</td>
+        <td>Doe</td>
+        <td>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+          culpa qui officia deserunt mollit anim id est laborum.
+        </td>
+        <td data-cell-numeric>23</td>
+        <td data-cell-action>Delete</td>
+      </tr>
+      <tr id="expand6">
+        <td></td>
+        <td>Jane</td>
+        <td>Doe</td>
+        <td>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+          culpa qui officia deserunt mollit anim id est laborum.
+        </td>
+        <td data-cell-numeric>23</td>
+        <td data-cell-action>Delete</td>
+      </tr>
     </tbody>
   </table>
 </gux-table-beta>
@@ -87,15 +161,9 @@
 
     table.addEventListener('guxexpandedrow',
     (event) => {
-      const {expanded, displayRows} = event.detail;
-      const expandableRow = table.querySelector(`tbody tr td gux-expandable-row`);
+      const {expanded, buttonId} = event.detail;
+      const expandableRow = table.querySelectorAll(buttonId);
       expandableRow.setAttribute('expanded', expanded);
-
-      const showRows = table.querySelectorAll(`tr[id^='expand']`);
-      showRows.forEach(row => {
-        row.setAttribute('class', displayRows);
-      })
-    })
   })()"
 >
   .not-used {

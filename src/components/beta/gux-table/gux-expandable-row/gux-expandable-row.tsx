@@ -1,6 +1,17 @@
-import { Component, Element, Prop, JSX, h, State, Listen } from '@stencil/core';
+import {
+  Component,
+  Element,
+  Prop,
+  JSX,
+  h,
+  State,
+  Event,
+  EventEmitter
+} from '@stencil/core';
 
 import { randomHTMLId } from '../../../../utils/dom/random-html-id';
+
+import { GuxTableExpandedRowState } from '../gux-table.types';
 
 @Component({
   styleUrl: 'gux-expandable-row.less',
@@ -13,18 +24,71 @@ export class GuxExpandableRow {
 
   private id: string = randomHTMLId('gux-expandable-row');
 
-  @Prop()
+  @Prop({ mutable: true })
   expanded: boolean = false;
+
+  @Prop()
+  rows: string;
 
   @State()
   rowCount: number;
 
-  @Listen('guxexpandedrow', { target: 'body' })
-  onExpanded(event: CustomEvent): void {
-    event.stopPropagation();
-    //set rowCount
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    this.rowCount = event.detail.expandableRowsCount;
+  /**
+   * Triggers when a table row with a nested expandable-row is clicked.
+   */
+  @Event() guxexpandedrow: EventEmitter<GuxTableExpandedRowState>;
+
+  private renderInitialState(): void {
+    const expandableRows = document.querySelectorAll(this.rows);
+    this.rowCount = expandableRows.length;
+
+    if (this.root.hasAttribute('expanded')) {
+      const expandedState = this.root.getAttribute('expanded');
+
+      if (expandedState == 'true') {
+        expandableRows.forEach(row => {
+          row.setAttribute('class', 'show');
+        });
+      }
+
+      if (expandedState == 'false') {
+        expandableRows.forEach(row => {
+          row.setAttribute('class', 'hidden');
+        });
+      }
+    }
+  }
+
+  private expandToggle(id: string): void {
+    const expandableRows = document.querySelectorAll(this.rows);
+
+    if (this.root.getAttribute('expanded')) {
+      const expandedState = this.root.getAttribute('expanded');
+
+      switch (expandedState) {
+        case 'true':
+          this.expanded = false;
+          expandableRows.forEach(row => {
+            row.setAttribute('class', 'hidden');
+          });
+          break;
+        case 'false':
+          this.expanded = true;
+          expandableRows.forEach(row => {
+            row.setAttribute('class', 'show');
+          });
+          break;
+      }
+
+      this.guxexpandedrow.emit({
+        expanded: this.expanded,
+        buttonId: id
+      });
+    }
+  }
+
+  componentDidLoad() {
+    this.renderInitialState();
   }
 
   render(): JSX.Element {
@@ -34,6 +98,7 @@ export class GuxExpandableRow {
         id={this.id}
         aria-label={`${this.rowCount}` + ' more nested rows'}
         aria-expanded={this.expanded ? 'true' : 'false'}
+        onClick={() => this.expandToggle(this.id)}
       >
         <gux-icon
           iconName={this.expanded ? 'arrow-solid-down' : 'arrow-solid-right'}

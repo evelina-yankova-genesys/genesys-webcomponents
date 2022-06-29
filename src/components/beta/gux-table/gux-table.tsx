@@ -107,11 +107,6 @@ export class GuxTable {
   @Event() guxsortchanged: EventEmitter<GuxTableSortState>;
 
   /**
-   * Triggers when a table row with a nested expandable-row is clicked.
-   */
-  @Event() guxexpandedrow: EventEmitter<GuxTableExpandedRowState>;
-
-  /**
    * Indicates that table should have resizable columns
    */
   @Prop()
@@ -131,7 +126,8 @@ export class GuxTable {
 
     this.prepareSortableColumns();
     this.prepareSelectableRows();
-    this.prepareExpandableRows();
+    //this.prepareExpandableRowsOnLoad();
+    //this.prepareExpandableRows();
     this.checkHorizontalScroll();
     this.checkVerticalScroll();
 
@@ -229,12 +225,6 @@ export class GuxTable {
   private get rowCheckboxes(): Array<HTMLGuxRowSelectElement> {
     return Array.from(
       this.slottedTable.querySelectorAll('tbody tr td gux-row-select')
-    );
-  }
-
-  private get expandableRow(): Array<HTMLElement> {
-    return Array.from(
-      this.slottedTable.querySelectorAll('tbody tr td gux-expandable-row')
     );
   }
 
@@ -485,45 +475,6 @@ export class GuxTable {
       window.getComputedStyle(element).getPropertyValue('width').split('px')[0],
       10
     );
-  }
-
-  /******************************* Expandable Rows *******************************/
-
-  private prepareExpandableRows(): void {
-    //retrieve all expandable row elements.
-    const expandableRows = this.expandableRow;
-
-    expandableRows.forEach((row: HTMLElement) => {
-      row.onclick = () => {
-        if (row.hasAttribute('expanded')) {
-          const expandedState = row.getAttribute('expanded');
-          let newExpandedState = null;
-          let displayRows = null;
-
-          switch (expandedState) {
-            case '':
-            case 'true':
-              newExpandedState = 'false';
-              displayRows = 'hidden';
-              break;
-            case 'false':
-              newExpandedState = 'true';
-              displayRows = 'show';
-              break;
-          }
-          //retrieve all rows with an id of expand.
-          const retrieveAllExpandable =
-            document.querySelectorAll("tr[id^='expand']");
-
-          //emit expanded state value
-          this.guxexpandedrow.emit({
-            expanded: newExpandedState,
-            expandableRowsCount: retrieveAllExpandable.length,
-            displayRows: displayRows
-          });
-        }
-      };
-    });
   }
 
   /******************************* Sortable Columns *******************************/

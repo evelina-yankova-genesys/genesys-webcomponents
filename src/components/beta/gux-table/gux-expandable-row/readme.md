@@ -7,9 +7,17 @@
 
 ## Properties
 
-| Property   | Attribute  | Description | Type      | Default |
-| ---------- | ---------- | ----------- | --------- | ------- |
-| `expanded` | `expanded` |             | `boolean` | `false` |
+| Property   | Attribute  | Description | Type      | Default     |
+| ---------- | ---------- | ----------- | --------- | ----------- |
+| `expanded` | `expanded` |             | `boolean` | `false`     |
+| `rows`     | `rows`     |             | `string`  | `undefined` |
+
+
+## Events
+
+| Event            | Description                                                        | Type                                    |
+| ---------------- | ------------------------------------------------------------------ | --------------------------------------- |
+| `guxexpandedrow` | Triggers when a table row with a nested expandable-row is clicked. | `CustomEvent<GuxTableExpandedRowState>` |
 
 
 ## Dependencies
