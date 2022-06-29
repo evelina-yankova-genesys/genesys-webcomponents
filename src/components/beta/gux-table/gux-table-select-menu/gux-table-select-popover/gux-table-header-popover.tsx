@@ -15,11 +15,11 @@ import { OnClickOutside } from '../../../../../utils/decorator/on-click-outside'
 import { onHiddenChange } from '../../../../../utils/dom/on-attribute-change';
 
 @Component({
-  styleUrl: 'gux-table-header-popover.less',
-  tag: 'gux-table-header-popover',
+  styleUrl: 'gux-table-select-popover.less',
+  tag: 'gux-table-select-popover',
   shadow: true
 })
-export class GuxTableHeaderPopover {
+export class GuxTableSelectPopover {
   private popperInstance: Instance;
   private hiddenObserver: MutationObserver;
   private popupElement: HTMLDivElement;

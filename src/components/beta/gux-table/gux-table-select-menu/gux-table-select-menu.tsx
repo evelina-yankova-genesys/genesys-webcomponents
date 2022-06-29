@@ -16,17 +16,17 @@ import tableResources from '../i18n/en.json';
 
 /**
  * @slot default - Required slot for gux-all-row-select element
- * @slot header-menu-options - Optional slot for gux-list containing gux-list-item children
+ * @slot select-menu-options - Optional slot for gux-list containing gux-list-item children
  */
 
 @Component({
-  styleUrl: 'gux-table-header-menu.less',
-  tag: 'gux-table-header-menu'
+  styleUrl: 'gux-table-select-menu.less',
+  tag: 'gux-table-select-menu'
 })
-export class GuxTableHeaderMenu {
-  private tableHeaderMenuButtonElement: HTMLButtonElement;
+export class GuxTableSelectMenu {
+  private tableSelectMenuButtonElement: HTMLButtonElement;
   private dropdownOptionsButtonId: string = randomHTMLId(
-    'gux-table-header-menu'
+    'gux-table-select-menu'
   );
   private moveFocusDelay: number = 100;
 
@@ -35,7 +35,7 @@ export class GuxTableHeaderMenu {
 
   private i18n: GetI18nValue;
 
-  private hasHeaderMenuOptions: boolean = false;
+  private hasSelectMenuOptions: boolean = false;
 
   @Prop()
   dropdownDisabled: boolean = false;
@@ -51,8 +51,8 @@ export class GuxTableHeaderMenu {
   }
 
   async componentWillLoad(): Promise<void> {
-    this.hasHeaderMenuOptions = !!this.root.querySelector(
-      '[slot="header-menu-options"]'
+    this.hasSelectMenuOptions = !!this.root.querySelector(
+      '[slot="select-menu-options"]'
     );
     this.i18n = await buildI18nForComponent(
       this.root,
@@ -65,13 +65,13 @@ export class GuxTableHeaderMenu {
   onKeydown(event: KeyboardEvent): void {
     switch (event.key) {
       case 'ArrowDown':
-        if (eventIsFrom('.gux-header-menu-button', event)) {
+        if (eventIsFrom('.gux-select-menu-button', event)) {
           this.toggleOptions();
           this.focusFirstItemInPopupList();
         }
         break;
       case 'Enter':
-        if (eventIsFrom('.gux-header-menu-button', event)) {
+        if (eventIsFrom('.gux-select-menu-button', event)) {
           void this.focusFirstItemInPopupList();
         }
         break;
@@ -79,7 +79,7 @@ export class GuxTableHeaderMenu {
         if (eventIsFrom('gux-list', event)) {
           event.stopPropagation();
           this.popoverHidden = true;
-          this.tableHeaderMenuButtonElement?.focus();
+          this.tableSelectMenuButtonElement?.focus();
         }
         break;
     }
@@ -89,7 +89,7 @@ export class GuxTableHeaderMenu {
   onKeyup(event: KeyboardEvent): void {
     switch (event.key) {
       case ' ':
-        if (eventIsFrom('.gux-header-menu-button', event)) {
+        if (eventIsFrom('.gux-select-menu-button', event)) {
           this.focusFirstItemInPopupList();
         }
     }
@@ -98,14 +98,14 @@ export class GuxTableHeaderMenu {
     this.popoverHidden = !this.popoverHidden;
   }
 
-  private renderHeaderDropdown(): JSX.Element {
-    if (this.hasHeaderMenuOptions) {
+  private renderSelectDropdown(): JSX.Element {
+    if (this.hasSelectMenuOptions) {
       return [
         <button
           aria-expanded={(!this.popoverHidden).toString()}
           type="button"
-          class="gux-header-menu-button"
-          ref={el => (this.tableHeaderMenuButtonElement = el)}
+          class="gux-select-menu-button"
+          ref={el => (this.tableSelectMenuButtonElement = el)}
           onClick={() => this.toggleOptions()}
           disabled={this.dropdownDisabled}
         >
@@ -114,16 +114,16 @@ export class GuxTableHeaderMenu {
             screenreader-text={this.i18n('tableOptions')}
           ></gux-icon>
         </button>,
-        <gux-table-header-popover
+        <gux-table-select-popover
           for={this.dropdownOptionsButtonId}
           hidden={this.popoverHidden}
           closeOnClickOutside={true}
           onGuxdismiss={() => (this.popoverHidden = true)}
         >
           <div>
-            <slot name="header-menu-options" />
+            <slot name="select-menu-options" />
           </div>
-        </gux-table-header-popover>
+        </gux-table-select-popover>
       ] as JSX.Element;
     }
   }
@@ -132,7 +132,7 @@ export class GuxTableHeaderMenu {
     return (
       <Host id={this.dropdownOptionsButtonId}>
         <slot />
-        {this.renderHeaderDropdown()}
+        {this.renderSelectDropdown()}
       </Host>
     ) as JSX.Element;
   }

@@ -1,15 +1,15 @@
 import { newSpecPage } from '@stencil/core/testing';
-import { GuxTableHeaderMenu } from '../gux-table-header-menu';
+import { GuxTableSelectMenu } from '../gux-table-select-menu';
 
-const components = [GuxTableHeaderMenu];
+const components = [GuxTableSelectMenu];
 const language = 'en';
 
-describe('gux-table-header-popover', () => {
+describe('gux-table-select-menu', () => {
   it('should build', async () => {
     const html = `
-      <gux-table-header-menu>
+      <gux-table-select-menu>
         <gux-all-row-select></gux-all-row-select>
-        <gux-list slot="header-menu-options">
+        <gux-list slot="select-menu-options">
           <gux-list-item onclick="notify(event)">
             All on page
           </gux-list-item>
@@ -18,10 +18,10 @@ describe('gux-table-header-popover', () => {
             Bring selected to top
           </gux-list-item>
         </gux-list>
-      </gux-table-header-menu>
+      </gux-table-select-menu>
     `;
     const page = await newSpecPage({ components, html, language });
 
-    expect(page.rootInstance).toBeInstanceOf(GuxTableHeaderMenu);
+    expect(page.rootInstance).toBeInstanceOf(GuxTableSelectMenu);
   });
 });

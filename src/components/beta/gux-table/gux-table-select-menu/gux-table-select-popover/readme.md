@@ -1,4 +1,4 @@
-# gux-table-header-popover
+# gux-table-select-popover
 
 <!-- Auto Generated Below -->
 
@@ -22,13 +22,13 @@
 
 ### Used by
 
- - [gux-table-header-menu](..)
+ - [gux-table-select-menu](..)
 
 ### Graph
 ```mermaid
 graph TD;
-  gux-table-header-menu --> gux-table-header-popover
-  style gux-table-header-popover fill:#f9f,stroke:#333,stroke-width:4px
+  gux-table-select-menu --> gux-table-select-popover
+  style gux-table-select-popover fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
 ----------------------------------------------
