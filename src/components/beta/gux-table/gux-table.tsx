@@ -24,9 +24,9 @@ import tableResources from './i18n/en.json';
 import {
   GuxTableColumnResizeState,
   GuxTableSortState,
-  GuxTableSelectedState,
-  GuxTableExpandedRowState
+  GuxTableSelectedState
 } from './gux-table.types';
+import { filterTooltipWithAggregatedField } from 'vega-lite/build/src/compositemark/common';
 
 const COL_RESIZE_HANDLE_WIDTH = 3;
 
@@ -126,8 +126,6 @@ export class GuxTable {
 
     this.prepareSortableColumns();
     this.prepareSelectableRows();
-    //this.prepareExpandableRowsOnLoad();
-    //this.prepareExpandableRows();
     this.checkHorizontalScroll();
     this.checkVerticalScroll();
 

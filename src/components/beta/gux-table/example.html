@@ -158,12 +158,13 @@
 <style
   onload="(function () {
     const table = document.querySelector('#expandable-table');
-
-    table.addEventListener('guxexpandedrow',
+   table.addEventListener('guxexpandrow',
     (event) => {
       const {expanded, buttonId} = event.detail;
+      console.log('receieved');
       const expandableRow = table.querySelectorAll(buttonId);
       expandableRow.setAttribute('expanded', expanded);
+    })
   })()"
 >
   .not-used {

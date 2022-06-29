@@ -6,12 +6,13 @@ import {
   h,
   State,
   Event,
-  EventEmitter
+  EventEmitter,
+  Host
 } from '@stencil/core';
 
 import { randomHTMLId } from '../../../../utils/dom/random-html-id';
 
-import { GuxTableExpandedRowState } from '../gux-table.types';
+import { GuxTableExpandedRowState } from './gux-expandable-row.types';
 
 @Component({
   styleUrl: 'gux-expandable-row.less',
@@ -25,7 +26,7 @@ export class GuxExpandableRow {
   private id: string = randomHTMLId('gux-expandable-row');
 
   @Prop({ mutable: true })
-  expanded: boolean = false;
+  expanded: boolean;
 
   @Prop()
   rows: string;
@@ -36,7 +37,7 @@ export class GuxExpandableRow {
   /**
    * Triggers when a table row with a nested expandable-row is clicked.
    */
-  @Event() guxexpandedrow: EventEmitter<GuxTableExpandedRowState>;
+  @Event() guxexpandrow: EventEmitter<GuxTableExpandedRowState>;
 
   private renderInitialState(): void {
     const expandableRows = document.querySelectorAll(this.rows);
@@ -80,30 +81,32 @@ export class GuxExpandableRow {
           break;
       }
 
-      this.guxexpandedrow.emit({
+      this.guxexpandrow.emit({
         expanded: this.expanded,
         buttonId: id
       });
+      console.log(this.guxexpandrow, 'testing');
     }
   }
 
-  componentDidLoad() {
+  componentWillLoad() {
     this.renderInitialState();
   }
 
   render(): JSX.Element {
     return (
-      <button
-        type="button"
-        id={this.id}
-        aria-label={`${this.rowCount}` + ' more nested rows'}
-        aria-expanded={this.expanded ? 'true' : 'false'}
-        onClick={() => this.expandToggle(this.id)}
-      >
-        <gux-icon
-          iconName={this.expanded ? 'arrow-solid-down' : 'arrow-solid-right'}
-        ></gux-icon>
-      </button>
+      <Host id={this.id}>
+        <button
+          type="button"
+          aria-label={`${this.rowCount}` + ' more nested rows'}
+          aria-expanded={this.expanded ? 'true' : 'false'}
+          onClick={() => this.expandToggle(this.id)}
+        >
+          <gux-icon
+            iconName={this.expanded ? 'arrow-solid-down' : 'arrow-solid-right'}
+          ></gux-icon>
+        </button>
+      </Host>
     ) as JSX.Element;
   }
 }
