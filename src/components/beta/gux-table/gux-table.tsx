@@ -179,14 +179,6 @@ export class GuxTable {
     this.handleRowSelection(event.target);
   }
 
-  @Listen('guxexpandrow')
-  onExpandRow(event: CustomEvent): void {
-    const table = document.querySelector('#expandable-table');
-    const { expanded, buttonId } = event.detail;
-    const expandableRow = table.querySelector(buttonId);
-    console.log(expandableRow);
-  }
-
   @Listen('mousemove', { capture: true })
   onMouseMove(event: MouseEvent): void {
     if (this.resizableColumns) {
