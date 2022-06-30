@@ -85,7 +85,6 @@ export class GuxExpandableRow {
         expanded: this.expanded,
         buttonId: id
       });
-      console.log(this.guxexpandrow, 'testing');
     }
   }
 

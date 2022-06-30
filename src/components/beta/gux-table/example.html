@@ -1,5 +1,26 @@
 <h1>gux-table-beta</h1>
 <h2>Expandable table</h2>
+
+<style
+  onload="(function () {
+    const table = document.querySelector('#expandable-table');
+   table.addEventListener('guxexpandrow',
+    (event) => {
+      const {expanded, buttonId} = event.detail;
+      const expandableRow = table.querySelectorAll('gux-expandable-row');
+        expandableRow.forEach(row => {
+          if(row.id == buttonId){
+            row.setAttribute('expanded', expanded);
+          }
+        })     
+    })
+  })()"
+>
+  .not-used {
+    -custom-noop: noop;
+  }
+</style>
+
 <gux-table-beta object-table id="expandable-table">
   <table slot="data">
     <thead>
@@ -154,23 +175,6 @@
     </tbody>
   </table>
 </gux-table-beta>
-
-<style
-  onload="(function () {
-    const table = document.querySelector('#expandable-table');
-   table.addEventListener('guxexpandrow',
-    (event) => {
-      const {expanded, buttonId} = event.detail;
-      console.log('receieved');
-      const expandableRow = table.querySelectorAll(buttonId);
-      expandableRow.setAttribute('expanded', expanded);
-    })
-  })()"
->
-  .not-used {
-    -custom-noop: noop;
-  }
-</style>
 
 <h2>Data table compact</h2>
 <gux-table-beta compact>

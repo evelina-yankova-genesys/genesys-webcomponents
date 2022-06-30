@@ -26,7 +26,6 @@ import {
   GuxTableSortState,
   GuxTableSelectedState
 } from './gux-table.types';
-import { filterTooltipWithAggregatedField } from 'vega-lite/build/src/compositemark/common';
 
 const COL_RESIZE_HANDLE_WIDTH = 3;
 
@@ -178,6 +177,14 @@ export class GuxTable {
   onInternalRowSelectChange(event: CustomEvent): void {
     event.stopPropagation();
     this.handleRowSelection(event.target);
+  }
+
+  @Listen('guxexpandrow')
+  onExpandRow(event: CustomEvent): void {
+    const table = document.querySelector('#expandable-table');
+    const { expanded, buttonId } = event.detail;
+    const expandableRow = table.querySelector(buttonId);
+    console.log(expandableRow);
   }
 
   @Listen('mousemove', { capture: true })
