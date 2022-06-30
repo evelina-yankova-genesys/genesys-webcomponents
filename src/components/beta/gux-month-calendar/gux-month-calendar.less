@@ -1,6 +1,7 @@
 @import (reference) '../../../style/color.less';
 @import (reference) '../../../style/shadows.less';
 @import (reference) '../../../style/typography.less';
+@import (reference) '../../../style/mixins.less';
 
 // Style
 :host {
@@ -127,10 +128,9 @@
             outline: none;
             .body-font();
 
-            &:focus {
-              background-color: @gux-grey-100;
-              border: 2px solid @gux-blue-60;
+            &:focus:not(&.gux-selected):not(:active) {
               border-radius: 4px;
+              .focus-ring();
             }
 
             &.gux-selected,
@@ -140,7 +140,7 @@
               border-radius: 4px;
             }
 
-            &.gux-disabled {
+            &:disabled {
               color: @gux-black-90;
               pointer-events: none;
               background-color: @gux-grey-100;

@@ -17,7 +17,7 @@ exports[`gux-month-picker-beta #render should render component as expected (1) 1
           <gux-icon decorative="" icon-name="calendar"></gux-icon>
         </button>
       </div>
-      <gux-month-calendar-beta maxdate="" mindate="" value="2022-01-01"></gux-month-calendar-beta>
+      <gux-month-calendar-beta maxdate="" mindate="" value="2022-01"></gux-month-calendar-beta>
     </div>
   </mock:shadow-root>
 </gux-month-picker-beta>

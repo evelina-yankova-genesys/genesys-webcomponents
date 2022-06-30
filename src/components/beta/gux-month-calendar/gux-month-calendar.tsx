@@ -12,9 +12,14 @@ import {
 } from '@stencil/core';
 
 import { trackComponent } from '../../../usage-tracking';
-import { getDesiredLocale } from '../../../i18n';
+import { buildI18nForComponent, GetI18nValue } from '../../../i18n';
+import translationResources from './i18n/en.json';
 import { OnClickOutside } from '../../../utils/decorator/on-click-outside';
-import { asIsoDate, fromIsoDate } from '../../../utils/date/iso-dates';
+import { MonthOfYear } from './gux-month-calendar.types';
+import {
+  getTranslatedMonthsLong,
+  getTranslatedMonthsShort
+} from './gux-month-calendar.service';
 
 @Component({
   styleUrl: 'gux-month-calendar.less',
@@ -22,11 +27,13 @@ import { asIsoDate, fromIsoDate } from '../../../utils/date/iso-dates';
   shadow: true
 })
 export class GuxMonthCalendar {
+  private i18n: GetI18nValue;
+
   @Element()
   root: HTMLElement;
 
   /**
-   * The current selected month
+   * The current selected year and month
    */
   @Prop({ mutable: true })
   value: string = '';
@@ -34,32 +41,26 @@ export class GuxMonthCalendar {
   /**
    * The min date selectable
    */
-  @Prop({ mutable: true })
+  @Prop()
   minDate: string = '';
 
   /**
    * The max date selectable
    */
-  @Prop({ mutable: true })
+  @Prop()
   maxDate: string = '';
 
-  @Prop({ mutable: true })
-  lastPickedMonth: HTMLElement;
+  @State()
+  previewValue: MonthOfYear;
 
   @State()
-  yearLabel: number;
+  translatedMonthsShortArray: Array<string> = [];
 
   @State()
-  previewValue: Date = new Date();
-
-  @Prop()
-  monthsListLong: Array<string> = [];
-
-  @Prop()
-  monthsListShort: Array<string> = [];
+  translatedMonthsLongArray: Array<string> = [];
 
   @State()
-  monthsArray: Array<Date> = [];
+  monthsArray: Array<MonthOfYear> = [];
 
   @State()
   focused: boolean = false;
@@ -70,50 +71,57 @@ export class GuxMonthCalendar {
   @Event()
   input: EventEmitter<string>;
 
-  private locale: string = 'en';
-
-  componentWillLoad() {
+  async componentWillLoad() {
     trackComponent(this.root);
-    this.locale = getDesiredLocale(this.root);
+    this.i18n = await buildI18nForComponent(this.root, translationResources);
 
     if (!this.value) {
-      const now = new Date();
-      now.setHours(0, 0, 0, 0);
-      this.value = asIsoDate(now);
+      const newDate = new Date();
+      const year = newDate.getFullYear();
+      const month =
+        newDate.getMonth().toString().length < 2
+          ? `0${newDate.getMonth() + 1}`
+          : newDate.getMonth() + 1;
+      this.value = `${year}-${month}`;
     }
 
-    this.minDate =
-      this.minDate.length > 7 ? this.minDate : this.minDate + '-01';
-    this.maxDate =
-      this.maxDate.length > 7 ? this.maxDate : this.maxDate + '-01';
+    const value = this.splitValue(this.value);
+    this.previewValue = {
+      year: parseInt(value[0]),
+      month: parseInt(value[1])
+    };
 
-    this.previewValue =
-      this.value.length > 7
-        ? fromIsoDate(this.value)
-        : fromIsoDate(this.value + '-01');
-    this.yearLabel = this.getYearLabel();
+    this.translatedMonthsShortArray = getTranslatedMonthsShort(this.i18n);
+    this.translatedMonthsLongArray = getTranslatedMonthsLong(this.i18n);
+
     this.getMonths();
   }
 
   componentDidLoad() {
     const target: HTMLTableCellElement = this.root.shadowRoot.querySelector(
-      `td[id="${this.previewValue.getMonth()}"] button`
+      `td[id="${this.previewValue.month}"] button`
     );
     if (target) {
       target.classList.add('gux-selected');
     }
-    this.lastPickedMonth = target;
   }
 
   /**
-   * Sets new value and rerender the calendar
+   * Sets new value
    */
   // eslint-disable-next-line @typescript-eslint/require-await
   @Method()
-  async setValue(value: Date) {
-    const selected = value;
-    this.value = asIsoDate(selected);
-    this.previewValue = selected;
+  async setValue(value: string) {
+    const valueSplit = this.splitValue(value);
+    const year = valueSplit[0];
+    const month =
+      valueSplit[1].length < 2 ? `0${valueSplit[1]}` : valueSplit[1];
+    this.value = `${year}-${month}`;
+
+    this.previewValue = {
+      year: parseInt(year),
+      month: parseInt(month)
+    };
   }
 
   /**
@@ -123,7 +131,7 @@ export class GuxMonthCalendar {
   @Method()
   async focusPreviewMonth() {
     const target: HTMLTableCellElement = this.root.shadowRoot.querySelector(
-      `td[id="${this.previewValue.getMonth()}"] button`
+      `td[id="${this.previewValue.month}"] button`
     );
 
     if (target) {
@@ -139,8 +147,12 @@ export class GuxMonthCalendar {
    */
   // eslint-disable-next-line @typescript-eslint/require-await
   @Method()
-  async resetCalendarView(value: Date): Promise<void> {
-    this.previewValue = value;
+  async resetCalendarView(): Promise<void> {
+    const splitValue = this.splitValue(this.value);
+    this.previewValue = {
+      year: parseInt(splitValue[0]),
+      month: parseInt(splitValue[1])
+    };
   }
 
   @OnClickOutside({ triggerEvents: 'mousedown' })
@@ -148,26 +160,28 @@ export class GuxMonthCalendar {
     this.focused = false;
   }
 
-  async setValueAndEmit(value: Date) {
+  async setValueAndEmit(value: string) {
     await this.setValue(value);
     this.emitInput();
   }
 
   emitInput() {
-    this.input.emit(this.value.slice(0, -3));
+    this.input.emit(this.value);
   }
 
-  getYearLabel() {
-    const month = new Date(this.previewValue.getTime());
-    month.setMonth(month.getMonth());
-    const year = month.getFullYear();
-    return year;
+  splitValue(value: string) {
+    return value.split('-');
   }
 
-  outOfBounds(date: Date): boolean {
+  outOfBounds(monthOfYear: MonthOfYear): boolean {
+    const monthFormatted =
+      monthOfYear.month.toString().length < 2
+        ? `0${monthOfYear.month}`
+        : monthOfYear.month;
+    const monthAndYear = `${monthOfYear.year}-${monthFormatted}`;
     return (
-      (this.maxDate !== '' && fromIsoDate(this.maxDate) < date) ||
-      (this.minDate !== '' && fromIsoDate(this.minDate) > date)
+      (this.maxDate !== '' && this.maxDate < monthAndYear) ||
+      (this.minDate !== '' && this.minDate > monthAndYear)
     );
   }
 
@@ -175,11 +189,14 @@ export class GuxMonthCalendar {
     const guxRightButton =
       this.root.shadowRoot.querySelector('button.gux-right');
     const guxLeftButton = this.root.shadowRoot.querySelector('button.gux-left');
-    this.yearLabel = this.yearLabel + increment;
 
-    if (this.yearLabel === parseInt(this.maxDate)) {
+    this.previewValue.year = this.previewValue.year + increment;
+
+    if (this.previewValue.year === parseInt(this.splitValue(this.maxDate)[0])) {
       guxRightButton.setAttribute('disabled', 'true');
-    } else if (this.yearLabel === parseInt(this.minDate)) {
+    } else if (
+      this.previewValue.year === parseInt(this.splitValue(this.minDate)[0])
+    ) {
       guxLeftButton.setAttribute('disabled', 'true');
     } else {
       if (guxRightButton && guxRightButton.hasAttribute('disabled')) {
@@ -192,127 +209,111 @@ export class GuxMonthCalendar {
     }
 
     this.getDisabledMonths();
-
-    this.previewValue = new Date(
-      this.previewValue.getFullYear() + increment,
-      this.previewValue.getMonth(),
-      15, // Don't use the day from the old value, because we'll skip a month on the 31st
-      0,
-      0,
-      0
-    );
     this.getMonths();
+
     // Wait for render before focusing preview date
     setTimeout(() => {
       void this.focusPreviewMonth();
     });
   }
 
-  async onMonthClick(date: Date, monthIndex: number) {
-    if (!this.outOfBounds(date)) {
-      if (this.lastPickedMonth) {
-        this.lastPickedMonth.classList.remove('gux-selected');
+  async onMonthClick(monthOfYear: MonthOfYear) {
+    if (!this.outOfBounds(monthOfYear)) {
+      const previouslySelectedMonth = this.root.shadowRoot.querySelector(
+        'td button.gux-selected'
+      );
+      if (previouslySelectedMonth) {
+        previouslySelectedMonth.classList.remove('gux-selected');
       }
-      await this.setValueAndEmit(date);
+      await this.setValueAndEmit(`${monthOfYear.year}-${monthOfYear.month}`);
       const target: HTMLTableCellElement = this.root.shadowRoot.querySelector(
-        `td[id="${monthIndex}"] button`
+        `td[id="${monthOfYear.month}"] button`
       );
       if (target) {
         target.classList.add('gux-selected');
       }
-      this.lastPickedMonth = target;
     }
   }
 
   getMonths() {
-    // January
-    const month = new Date(this.previewValue.getFullYear(), 0);
+    // reset displayed months array
     this.monthsArray = [];
 
-    for (let i = 0; i < 12; i++) {
-      const monthDate = new Date(this.previewValue.getFullYear(), i);
-      this.monthsArray.push(monthDate);
-
-      const monthNameLong = month.toLocaleString(this.locale, {
-        month: 'long'
-      });
-      const monthNameShort = month.toLocaleString(this.locale, {
-        month: 'short'
-      });
-      const monthNameLongFormatted =
-        monthNameLong.charAt(0).toUpperCase() + monthNameLong.slice(1);
-      const monthNameShortFormatted =
-        monthNameShort.charAt(0).toUpperCase() + monthNameShort.slice(1);
-      this.monthsListLong.push(monthNameLongFormatted);
-      this.monthsListShort.push(monthNameShortFormatted);
-
-      month.setMonth(month.getMonth() + 1);
+    for (let i = 1; i < 13; i++) {
+      const monthYearObj = {
+        year: this.previewValue.year,
+        month: i
+      };
+      this.monthsArray.push(monthYearObj);
     }
   }
 
   /**
    * Disables months out of specified range
-   */
+  //  */
   getDisabledMonths() {
-    for (let i = 0; i < 12; i++) {
+    for (let i = 1; i < 13; i++) {
       if (this.root.shadowRoot.querySelector(`td[id="${i}"] button`)) {
         this.root.shadowRoot
           .querySelector(`td[id="${i}"] button`)
-          .classList.remove('gux-disabled');
+          .removeAttribute('disabled');
       }
 
+      const splitMinDate = this.splitValue(this.minDate);
+      const splitMaxDate = this.splitValue(this.maxDate);
+
       // min
-      if (this.yearLabel === parseInt(this.minDate)) {
-        if (
-          fromIsoDate(this.minDate).toLocaleString(this.locale, {
-            month: 'long'
-          }) === this.monthsListLong[i]
-        ) {
-          // disable previous months
-          for (let j = i - 1; j >= 0; j--) {
-            this.root.shadowRoot
-              .querySelector(`td[id="${j}"] button`)
-              .classList.add('gux-disabled');
-          }
+      if (this.previewValue.year === parseInt(splitMinDate[0])) {
+        // disable previous months
+        for (let j = parseInt(splitMinDate[1]) - 1; j > 0; j--) {
+          this.root.shadowRoot
+            .querySelector(`td[id="${j}"] button`)
+            .setAttribute('disabled', 'true');
         }
       }
 
       // max
-      if (this.yearLabel === parseInt(this.maxDate)) {
-        if (
-          fromIsoDate(this.maxDate).toLocaleString(this.locale, {
-            month: 'long'
-          }) === this.monthsListLong[i]
-        ) {
-          // disable future months
-          for (let k = i + 1; k < 12; k++) {
-            this.root.shadowRoot
-              .querySelector(`td[id="${k}"] button`)
-              .classList.add('gux-disabled');
-          }
-
-          i = 12;
+      if (this.previewValue.year === parseInt(splitMaxDate[0])) {
+        // disable future months
+        for (let k = parseInt(splitMaxDate[1]) + 1; k < 13; k++) {
+          this.root.shadowRoot
+            .querySelector(`td[id="${k}"] button`)
+            .setAttribute('disabled', 'true');
         }
+
+        i = 13;
       }
+    }
+  }
+
+  checkForYearRollover(previewValue: MonthOfYear) {
+    if (previewValue.month > 12) {
+      this.previewValue.month = 1;
+      this.incrementPreviewDateByYear(1);
+      this.getMonths();
+    } else if (previewValue.month < 1) {
+      this.previewValue.month = 12;
+      this.incrementPreviewDateByYear(-1);
+      this.getMonths();
     }
   }
 
   @Listen('keydown')
   async onKeyDown(event: KeyboardEvent) {
     const previewValue = this.previewValue;
-    const month = previewValue;
 
     switch (event.key) {
       case ' ':
       case 'Enter':
         event.preventDefault();
-        await this.onMonthClick(previewValue, month.getMonth());
+        await this.onMonthClick(previewValue);
         break;
       case 'ArrowDown':
         event.preventDefault();
-        this.previewValue = this.previewValue = new Date(
-          this.previewValue.setMonth(month.getMonth() + 3)
-        );
+        if (!this.outOfBounds(this.previewValue)) {
+          this.previewValue.month = this.previewValue.month + 3;
+          this.checkForYearRollover(this.previewValue);
+        }
         setTimeout(() => {
           void this.focusPreviewMonth();
         });
@@ -320,9 +321,10 @@ export class GuxMonthCalendar {
         break;
       case 'ArrowUp':
         event.preventDefault();
-        this.previewValue = this.previewValue = new Date(
-          this.previewValue.setMonth(month.getMonth() - 3)
-        );
+        if (!this.outOfBounds(this.previewValue)) {
+          this.previewValue.month = this.previewValue.month - 3;
+          this.checkForYearRollover(this.previewValue);
+        }
         setTimeout(() => {
           void this.focusPreviewMonth();
         });
@@ -330,9 +332,10 @@ export class GuxMonthCalendar {
         break;
       case 'ArrowLeft':
         event.preventDefault();
-        this.previewValue = this.previewValue = new Date(
-          this.previewValue.setMonth(month.getMonth() - 1)
-        );
+        if (!this.outOfBounds(this.previewValue)) {
+          this.previewValue.month = this.previewValue.month - 1;
+          this.checkForYearRollover(this.previewValue);
+        }
         setTimeout(() => {
           void this.focusPreviewMonth();
         });
@@ -340,9 +343,10 @@ export class GuxMonthCalendar {
         break;
       case 'ArrowRight':
         event.preventDefault();
-        this.previewValue = this.previewValue = new Date(
-          this.previewValue.setMonth(month.getMonth() + 1)
-        );
+        if (!this.outOfBounds(this.previewValue)) {
+          this.previewValue.month = this.previewValue.month + 1;
+          this.checkForYearRollover(this.previewValue);
+        }
         setTimeout(() => {
           void this.focusPreviewMonth();
         });
@@ -356,17 +360,15 @@ export class GuxMonthCalendar {
       <table>
         <tr>
           {this.monthsArray.slice(0, 3).map(
-            month =>
+            monthOfYear =>
               (
-                <td id={month.getMonth().toString()}>
-                  <button
-                    onClick={() => this.onMonthClick(month, month.getMonth())}
-                  >
-                    {this.monthsListShort[month.getMonth()]}
+                <td id={monthOfYear.month.toString()}>
+                  <button onClick={() => this.onMonthClick(monthOfYear)}>
+                    {this.translatedMonthsShortArray[monthOfYear.month]}
                   </button>
                   <span class="gux-sr-only">
-                    {month.toLocaleString(this.locale, { month: 'long' })}{' '}
-                    {this.yearLabel}
+                    {this.translatedMonthsLongArray[monthOfYear.month]}{' '}
+                    {monthOfYear.year}
                   </span>
                 </td>
               ) as JSX.Element
@@ -374,17 +376,15 @@ export class GuxMonthCalendar {
         </tr>
         <tr>
           {this.monthsArray.slice(3, 6).map(
-            month =>
+            monthOfYear =>
               (
-                <td id={month.getMonth().toString()}>
-                  <button
-                    onClick={() => this.onMonthClick(month, month.getMonth())}
-                  >
-                    {this.monthsListShort[month.getMonth()]}
+                <td id={monthOfYear.month.toString()}>
+                  <button onClick={() => this.onMonthClick(monthOfYear)}>
+                    {this.translatedMonthsShortArray[monthOfYear.month]}
                   </button>
                   <span class="gux-sr-only">
-                    {month.toLocaleString(this.locale, { month: 'long' })}{' '}
-                    {this.yearLabel}
+                    {this.translatedMonthsLongArray[monthOfYear.month]}{' '}
+                    {monthOfYear.year}
                   </span>
                 </td>
               ) as JSX.Element
@@ -392,17 +392,15 @@ export class GuxMonthCalendar {
         </tr>
         <tr>
           {this.monthsArray.slice(6, 9).map(
-            month =>
+            monthOfYear =>
               (
-                <td id={month.getMonth().toString()}>
-                  <button
-                    onClick={() => this.onMonthClick(month, month.getMonth())}
-                  >
-                    {this.monthsListShort[month.getMonth()]}
+                <td id={monthOfYear.month.toString()}>
+                  <button onClick={() => this.onMonthClick(monthOfYear)}>
+                    {this.translatedMonthsShortArray[monthOfYear.month]}
                   </button>
                   <span class="gux-sr-only">
-                    {month.toLocaleString(this.locale, { month: 'long' })}{' '}
-                    {this.yearLabel}
+                    {this.translatedMonthsLongArray[monthOfYear.month]}{' '}
+                    {monthOfYear.year}
                   </span>
                 </td>
               ) as JSX.Element
@@ -410,17 +408,15 @@ export class GuxMonthCalendar {
         </tr>
         <tr>
           {this.monthsArray.slice(9, 12).map(
-            month =>
+            monthOfYear =>
               (
-                <td id={month.getMonth().toString()}>
-                  <button
-                    onClick={() => this.onMonthClick(month, month.getMonth())}
-                  >
-                    {this.monthsListShort[month.getMonth()]}
+                <td id={monthOfYear.month.toString()}>
+                  <button onClick={() => this.onMonthClick(monthOfYear)}>
+                    {this.translatedMonthsShortArray[monthOfYear.month]}
                   </button>
                   <span class="gux-sr-only">
-                    {month.toLocaleString(this.locale, { month: 'long' })}{' '}
-                    {this.yearLabel}
+                    {this.translatedMonthsLongArray[monthOfYear.month]}{' '}
+                    {monthOfYear.year}
                   </span>
                 </td>
               ) as JSX.Element
@@ -444,7 +440,7 @@ export class GuxMonthCalendar {
             <gux-icon decorative icon-name="chevron-small-left"></gux-icon>
           </button>
           <div class="gux-year-list">
-            <label>{this.getYearLabel()}</label>
+            <label>{this.previewValue.year}</label>
           </div>
           <button
             type="button"

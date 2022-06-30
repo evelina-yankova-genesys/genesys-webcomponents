@@ -10,6 +10,11 @@ describe('gux-month-calendar-beta', () => {
     component.input = {
       emit: jest.fn()
     };
+    component.value = '2022-01';
+    component.previewValue = {
+      year: 2022,
+      month: 1
+    };
     componentRoot = component.root as any;
     componentShadowRoot = {} as any;
     componentRoot.shadowRoot = componentShadowRoot;
@@ -21,15 +26,18 @@ describe('gux-month-calendar-beta', () => {
       return [];
     };
   });
-  it('builds', () => {
-    component.componentWillLoad();
+  it('builds', async () => {
+    await component.componentWillLoad();
     component.render();
     expect(component).toBeTruthy();
   });
   // Methods
   describe('methods', () => {
-    const testDate = new Date(2022, 0, 1);
-    const testValue = '2022-01-01';
+    const testValue = '2022-01';
+    const testPreviewValue = {
+      year: 2022,
+      month: 1
+    };
     const spyEl = {
       classList: {
         add: jest.fn(),
@@ -41,8 +49,8 @@ describe('gux-month-calendar-beta', () => {
     // Public
     describe('public', () => {
       it('setValue', async () => {
-        await component.setValue(testDate);
-        expect(component.previewValue).toEqual(testDate);
+        await component.setValue(testValue);
+        expect(component.previewValue).toEqual(testPreviewValue);
         expect(component.value).toEqual(testValue);
       });
       it('focusPreviewDate', async () => {
@@ -59,45 +67,43 @@ describe('gux-month-calendar-beta', () => {
     describe('private', () => {
       it('incrementPreviewDateByMonth', async () => {
         jest.useFakeTimers();
-        await component.setValue(testDate);
-        component.yearLabel = 2022;
-        const startingYear = component.yearLabel;
+        await component.setValue(testValue);
+        const startingYear = 2022;
         component.incrementPreviewDateByYear(1);
         jest.runAllTimers();
-        expect(component.yearLabel).toEqual(startingYear + 1);
+        expect(component.previewValue.year).toEqual(startingYear + 1);
       });
       it('onMonthClick', async () => {
         spyOn(component, 'setValue').and.callFake(() => {
           return;
         });
-        await component.onMonthClick(testDate, 0);
-        expect(component.setValue).toHaveBeenCalledWith(testDate);
+        await component.onMonthClick(testPreviewValue);
+        expect(component.setValue).toHaveBeenCalledWith('2022-1');
       });
       it('onKeyDown', async () => {
         jest.useFakeTimers();
         spyOn(component, 'setValue').and.callFake(() => {
           return;
         });
-        await component.setValue(testDate);
+        await component.setValue(testValue);
         component.getMonths();
-        component.previewValue = testDate;
-        component.yearLabel = 2022;
+        component.previewValue = testPreviewValue;
         let event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
         await component.onKeyDown(event);
         jest.runAllTimers();
-        expect(component.previewValue.getMonth()).toEqual(3);
+        expect(component.previewValue.month).toEqual(4);
         event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
         await component.onKeyDown(event);
         jest.runAllTimers();
-        expect(component.previewValue.getMonth()).toEqual(4);
+        expect(component.previewValue.month).toEqual(5);
         event = new KeyboardEvent('keydown', { key: 'ArrowUp' });
         await component.onKeyDown(event);
         jest.runAllTimers();
-        expect(component.previewValue.getMonth()).toEqual(1);
+        expect(component.previewValue.month).toEqual(2);
         event = new KeyboardEvent('keydown', { key: 'ArrowLeft' });
         await component.onKeyDown(event);
         jest.runAllTimers();
-        expect(component.previewValue.getMonth()).toEqual(0);
+        expect(component.previewValue.month).toEqual(1);
         event = new KeyboardEvent('keydown', { key: 'Enter' });
         await component.onKeyDown(event);
         jest.runAllTimers();
@@ -113,9 +119,8 @@ describe('gux-month-calendar-beta', () => {
   // Events
   describe('events', () => {
     it('onInput', async () => {
-      const testDate = new Date(2022, 0, 1);
       const testValue = '2022-01';
-      await component.setValue(testDate);
+      await component.setValue(testValue);
       component.emitInput();
       expect(component.input.emit).toHaveBeenCalledWith(testValue);
     });

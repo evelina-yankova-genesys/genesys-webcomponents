@@ -7,14 +7,11 @@
 
 ## Properties
 
-| Property          | Attribute  | Description                | Type          | Default     |
-| ----------------- | ---------- | -------------------------- | ------------- | ----------- |
-| `lastPickedMonth` | --         |                            | `HTMLElement` | `undefined` |
-| `maxDate`         | `max-date` | The max date selectable    | `string`      | `''`        |
-| `minDate`         | `min-date` | The min date selectable    | `string`      | `''`        |
-| `monthsListLong`  | --         |                            | `string[]`    | `[]`        |
-| `monthsListShort` | --         |                            | `string[]`    | `[]`        |
-| `value`           | `value`    | The current selected month | `string`      | `''`        |
+| Property  | Attribute  | Description                         | Type     | Default |
+| --------- | ---------- | ----------------------------------- | -------- | ------- |
+| `maxDate` | `max-date` | The max date selectable             | `string` | `''`    |
+| `minDate` | `min-date` | The min date selectable             | `string` | `''`    |
+| `value`   | `value`    | The current selected year and month | `string` | `''`    |
 
 
 ## Events
@@ -36,7 +33,7 @@ Type: `Promise<void>`
 
 
 
-### `resetCalendarView(value: Date) => Promise<void>`
+### `resetCalendarView() => Promise<void>`
 
 Reset calendar view to show first selected date
 
@@ -46,9 +43,9 @@ Type: `Promise<void>`
 
 
 
-### `setValue(value: Date) => Promise<void>`
+### `setValue(value: string) => Promise<void>`
 
-Sets new value and rerender the calendar
+Sets new value
 
 #### Returns
 
