@@ -1,5 +1,6 @@
 @import (reference) '../../../../style/spacing.less';
 @import (reference) '../../../../style/color.less';
+@import (reference) '../../../../style/mixins.less';
 
 button {
   cursor: grab;
@@ -10,4 +11,8 @@ button {
     width: 16px;
     height: 16px;
   }
+}
+
+button:focus {
+  .focus-ring-small();
 }

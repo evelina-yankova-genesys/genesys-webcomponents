@@ -11,8 +11,11 @@ import {
 } from '@stencil/core';
 
 import { randomHTMLId } from '../../../../utils/dom/random-html-id';
-
 import { GuxTableExpandedRowState } from './gux-expandable-row.types';
+
+import { buildI18nForComponent, GetI18nValue } from '../../../../i18n';
+import translationResources from '../i18n/en.json';
+import { trackComponent } from '../../../../usage-tracking';
 
 @Component({
   styleUrl: 'gux-expandable-row.less',
@@ -20,6 +23,8 @@ import { GuxTableExpandedRowState } from './gux-expandable-row.types';
   shadow: true
 })
 export class GuxExpandableRow {
+  private i18n: GetI18nValue;
+
   @Element()
   root: HTMLElement;
 
@@ -88,7 +93,9 @@ export class GuxExpandableRow {
     }
   }
 
-  componentWillLoad() {
+  async componentWillLoad(): Promise<void> {
+    trackComponent(this.root);
+    this.i18n = await buildI18nForComponent(this.root, translationResources);
     this.renderInitialState();
   }
 
@@ -97,7 +104,9 @@ export class GuxExpandableRow {
       <Host id={this.id}>
         <button
           type="button"
-          aria-label={`${this.rowCount}` + ' more nested rows'}
+          aria-label={this.i18n('nestedRows', {
+            rowCount: this.rowCount
+          })}
           aria-expanded={this.expanded ? 'true' : 'false'}
           onClick={() => this.expandToggle(this.id)}
         >
