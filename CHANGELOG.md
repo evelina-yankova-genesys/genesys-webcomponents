@@ -2,6 +2,76 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.7.0](https://github.com/MyPureCloud/genesys-webcomponents/compare/v3.6.0...v3.7.0) (2022-06-30)
+
+
+### Features
+
+* **sort-control:** new sort control feature ([d21466b](https://github.com/MyPureCloud/genesys-webcomponents/commit/d21466b14f68ba847c5642ed7e481d03324b494e))
+
+## [3.6.0](https://github.com/MyPureCloud/genesys-webcomponents/compare/v3.5.0...v3.6.0) (2022-06-29)
+
+
+### Features
+
+* **gux-dropdown-multi:** add new multi select component ([#785](https://github.com/MyPureCloud/genesys-webcomponents/issues/785)) ([e1c8443](https://github.com/MyPureCloud/genesys-webcomponents/commit/e1c8443cc75b4baa5291a235172526737935a98f))
+
+## [3.5.0](https://github.com/MyPureCloud/genesys-webcomponents/compare/v3.4.2...v3.5.0) (2022-06-22)
+
+
+### Features
+
+* **row-select:** addition of disabled property and addition of disabled rows to example file ([6224b61](https://github.com/MyPureCloud/genesys-webcomponents/commit/6224b6132e5306a6132d8b689377396a6b5a8b3c))
+* **row-select:** addition of extra test for edge case ([b4d347c](https://github.com/MyPureCloud/genesys-webcomponents/commit/b4d347c5186d0689ed33508c5941884c5c735d24))
+* **row-select:** check if row-select has disabled attribute ([755cb10](https://github.com/MyPureCloud/genesys-webcomponents/commit/755cb100b333891eb0d22e17c8ab18fd0d2f53b4))
+* **row-select:** filter out disabled rows ([d37452d](https://github.com/MyPureCloud/genesys-webcomponents/commit/d37452d18cb9aecfb46fe0a6db21cd814573fbeb))
+
+
+### Bug Fixes
+
+* **config:** add experimentalImportInjection flag to fix lazy load issue with Vite bundler ([b33ccb6](https://github.com/MyPureCloud/genesys-webcomponents/commit/b33ccb616fb7e58b88418baff7a98e3b12cd798c))
+
+### [3.4.2](https://github.com/MyPureCloud/genesys-webcomponents/compare/v3.4.1...v3.4.2) (2022-06-22)
+
+### [3.4.1](https://github.com/MyPureCloud/genesys-webcomponents/compare/v3.4.0...v3.4.1) (2022-06-17)
+
+
+### Bug Fixes
+
+* **pr-comment:** use gux-blue-100 with fade for hover color ([99696e1](https://github.com/MyPureCloud/genesys-webcomponents/commit/99696e17729723e508bc2dcdf46379a44b7ba354))
+
+## [3.4.0](https://github.com/MyPureCloud/genesys-webcomponents/compare/v3.3.2...v3.4.0) (2022-06-15)
+
+
+### Features
+
+* **gux-copy-to-clipboard-beta:** add gux-copy-to-clipboard-beta component ([3929fe1](https://github.com/MyPureCloud/genesys-webcomponents/commit/3929fe1676e66285faf6875b9b984070a9eaae3d))
+* **gux-copy-to-clipboard:** add title attribute to button and update snapshot ([c57516e](https://github.com/MyPureCloud/genesys-webcomponents/commit/c57516eb341d29a9bafff897ce973f9728efd816))
+* **gux-tabs-advanced:** add slot for add tab icon and text ([3a17c8f](https://github.com/MyPureCloud/genesys-webcomponents/commit/3a17c8f5d1bb627ad0fc259b07ed89f936288f81))
+* **gux-tabs-advanced:** option to add text to add tab button ([61c44fa](https://github.com/MyPureCloud/genesys-webcomponents/commit/61c44fa5c294adc5bb8338f46fe15dc3323a065f))
+* **gux-tabs-advanced:** update e2e test snapshot ([30aa996](https://github.com/MyPureCloud/genesys-webcomponents/commit/30aa996ae5204e585ea9ce9640d4d8fdf5206e8a))
+* **gux-tabs-advanced:** update test snapshot ([e3f02eb](https://github.com/MyPureCloud/genesys-webcomponents/commit/e3f02eb19fdf3047547c8e20ea5326918a3a8348))
+
+
+### Bug Fixes
+
+* **pr-comment:** add badge-x icon ([7139a56](https://github.com/MyPureCloud/genesys-webcomponents/commit/7139a56437cc271ded5e512e515b60166f66dbc3))
+* **pr-comment:** add tests ([65dfad1](https://github.com/MyPureCloud/genesys-webcomponents/commit/65dfad1f27260b3e2e51596ade9c0c0487139e22))
+* **pr-comment:** remove aria label from button ([7451c41](https://github.com/MyPureCloud/genesys-webcomponents/commit/7451c41b71dd92b7a543ffc7152d842af149d6d7))
+* **pr-comment:** remove duplicate add tab button container ([44e617a](https://github.com/MyPureCloud/genesys-webcomponents/commit/44e617a8f1f4a0c9b5273141578505e2fac00285))
+* **pr-comment:** replace div with button ([828f56b](https://github.com/MyPureCloud/genesys-webcomponents/commit/828f56b980ec1084850816751c270a7d9c0e81a7))
+* **pr-comments:** address feedback ([ba387cf](https://github.com/MyPureCloud/genesys-webcomponents/commit/ba387cf44d61a12e38116027c7af6fc536a15fdc))
+* **pr-comment:** use add tab slot text content for button title ([84f5143](https://github.com/MyPureCloud/genesys-webcomponents/commit/84f51434c218066874012ded587b20b95ee2ab3a))
+
+### [3.3.2](https://github.com/MyPureCloud/genesys-webcomponents/compare/v3.3.1...v3.3.2) (2022-06-15)
+
+
+### Bug Fixes
+
+* **build:** fix assets url generation during build process ([efcdce9](https://github.com/MyPureCloud/genesys-webcomponents/commit/efcdce941da3e20ba0fec9458524be45cb94aac2))
+
+### [3.3.1](https://github.com/MyPureCloud/genesys-webcomponents/compare/v3.3.0...v3.3.1) (2022-06-15)
+
 ## [3.3.0](https://github.com/MyPureCloud/genesys-webcomponents/compare/v3.1.2...v3.3.0) (2022-06-13)
 
 

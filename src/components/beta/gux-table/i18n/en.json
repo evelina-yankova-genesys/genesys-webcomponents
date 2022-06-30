@@ -6,5 +6,6 @@
   "selectTableRow": "Select Table Row",
   "sortAsc": "Sorted Ascending",
   "sortDesc": "Sorted Descending",
-  "tableOptions": "Table Options"
+  "tableOptions": "Table Options",
+  "colSortDirection": "{colLabel} , sort {colSortDirection}"
 }

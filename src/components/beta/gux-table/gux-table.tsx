@@ -219,6 +219,18 @@ export class GuxTable {
     return Array.from(this.slottedTable.querySelectorAll('thead th'));
   }
 
+  private get tableColumnsDataSortable(): Array<HTMLElement> {
+    return Array.from(
+      this.slottedTable.querySelectorAll('thead th[data-sortable]')
+    );
+  }
+
+  private get sortControlCol(): Array<HTMLElement> {
+    return Array.from(
+      this.slottedTable.querySelectorAll('thead th gux-sort-control')
+    );
+  }
+
   private get rowCheckboxes(): Array<HTMLGuxRowSelectElement> {
     return Array.from(
       this.slottedTable.querySelectorAll('tbody tr td gux-row-select')
@@ -267,10 +279,12 @@ export class GuxTable {
 
     if (selectAllCheckbox) {
       const rowCheckboxes = this.rowCheckboxes;
-      const selectedRows = rowCheckboxes.filter(box => box.selected);
-
+      const filterDisabled = rowCheckboxes.filter(
+        rowBox => rowBox.hasAttribute('disabled') == false
+      );
+      const selectedRows = filterDisabled.filter(box => box.selected);
       const hasRows = Boolean(rowCheckboxes.length);
-      const allSelected = selectedRows.length === rowCheckboxes.length;
+      const allSelected = selectedRows.length === filterDisabled.length;
       const noneSelected = selectedRows.length === 0;
 
       selectAllCheckbox.selected = hasRows && allSelected;
@@ -287,8 +301,10 @@ export class GuxTable {
     const rowCheckboxes = this.rowCheckboxes;
 
     rowCheckboxes.forEach(rowBox => {
-      rowBox.selected = selectAllCheckbox.selected;
-      this.updateRowSelection(rowBox);
+      if (!rowBox.hasAttribute('disabled')) {
+        rowBox.selected = selectAllCheckbox.selected;
+        this.updateRowSelection(rowBox);
+      }
     });
 
     this.emitSelectionEvent();
@@ -477,34 +493,45 @@ export class GuxTable {
   /******************************* Sortable Columns *******************************/
 
   private prepareSortableColumns(): void {
-    const columnsElements = this.tableColumns;
-    this.prepareSortableColumnsStyles();
+    let sortControlSelected = [];
+    const sortControl = document.querySelector('gux-sort-control');
+    sortControl
+      ? (sortControlSelected = this.sortControlCol)
+      : (sortControlSelected = this.tableColumnsDataSortable);
 
-    columnsElements.forEach((column: HTMLElement) => {
-      if (Object.prototype.hasOwnProperty.call(column.dataset, 'sortable')) {
-        column.onclick = (event: MouseEvent) => {
-          if (!this.columnResizeHover) {
-            const columnElement = event.currentTarget as HTMLElement;
-            const sortDirection = columnElement.dataset.sort || '';
-            let newSortDirection = null;
-
-            switch (sortDirection) {
-              case '':
-              case 'desc':
-                newSortDirection = 'asc';
-                break;
-              case 'asc':
-                newSortDirection = 'desc';
-                break;
-            }
-
-            this.guxsortchanged.emit({
-              columnName: columnElement.dataset.columnName,
-              sortDirection: newSortDirection
-            });
-          }
-        };
+    /* Only apply sortable styles if the data-sortable way of sorting is being used(ie the old way) and not the <gux-sort-control /> */
+    this.tableColumnsDataSortable.forEach((tableHeader: HTMLElement) => {
+      if (tableHeader.hasAttribute('data-sortable')) {
+        this.prepareSortableColumnsStyles();
       }
+    });
+
+    sortControlSelected.forEach((column: HTMLElement) => {
+      column.onclick = (event: MouseEvent) => {
+        if (!this.columnResizeHover) {
+          const button = event.target as HTMLElement;
+          const columnElement = column.hasAttribute('data-sortable')
+            ? (event.currentTarget as HTMLElement)
+            : button.parentElement;
+          const sortDirection = columnElement.getAttribute('aria-sort') || '';
+          let newSortDirection = null;
+
+          switch (sortDirection) {
+            case '':
+            case 'descending':
+              newSortDirection = 'ascending';
+              break;
+            case 'ascending':
+              newSortDirection = 'descending';
+              break;
+          }
+
+          this.guxsortchanged.emit({
+            columnName: columnElement.dataset.columnName,
+            sortDirection: newSortDirection
+          });
+        }
+      };
     });
   }
 
@@ -524,9 +551,9 @@ export class GuxTable {
       const sortDescContent = this.i18n('sortDesc');
 
       styleElement.innerHTML = `
-      th[data-sortable]:hover:after{content: "${sortAscContent}";background-image: url("${ascArrowIcon}");}
-      th[data-sort="asc"]:after{background-image:url("${ascArrowIcon}")!important;content:"${sortAscContent}"!important;}
-      th[data-sort="desc"]:after{background-image:url("${descArrowIcon}")!important;content:"${sortDescContent}"!important;}
+      th[data-sortable]:focus-within:after{content: "${sortAscContent}";background-image: url("${ascArrowIcon}");}
+      th[aria-sort="ascending"]:after{background-image:url("${ascArrowIcon}")!important;content:"${sortAscContent}"!important;}
+      th[aria-sort="descending"]:after{background-image:url("${descArrowIcon}")!important;content:"${sortDescContent}"!important;}
     `;
 
       document.querySelector('head').appendChild(styleElement);
