@@ -7,11 +7,12 @@
 
 ## Properties
 
-| Property        | Attribute        | Description | Type                         | Default     |
-| --------------- | ---------------- | ----------- | ---------------------------- | ----------- |
-| `arrowPosition` | `arrow-position` |             | `"beside-text" \| "default"` | `'default'` |
-| `disabled`      | `disabled`       |             | `boolean`                    | `false`     |
-| `open`          | `open`           |             | `boolean`                    | `false`     |
+| Property          | Attribute          | Description | Type                         | Default     |
+| ----------------- | ------------------ | ----------- | ---------------------------- | ----------- |
+| `arrowPosition`   | `arrow-position`   |             | `"beside-text" \| "default"` | `'default'` |
+| `disabled`        | `disabled`         |             | `boolean`                    | `false`     |
+| `open`            | `open`             |             | `boolean`                    | `false`     |
+| `reverseHeadings` | `reverse-headings` |             | `boolean`                    | `false`     |
 
 
 ## Events

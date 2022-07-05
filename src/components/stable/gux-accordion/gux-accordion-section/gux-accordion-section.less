@@ -35,42 +35,72 @@ section.gux-disabled {
   align-items: center;
   justify-content: flex-start;
   width: 100%;
-  height: @spacing-2xl;
-  padding: 0 @spacing-medium;
+  padding: var(--spacing-small) var(--spacing-small) var(--spacing-small)
+    var(--spacing-medium);
   margin: 0;
   cursor: pointer;
   border-bottom: 1px solid @gux-grey-60;
 
   .gux-header-text {
-    flex: 0 1 auto;
+    flex: 1 1 auto;
     align-self: auto;
     padding-right: @spacing-xs;
     text-align: left;
-    .gux-large-text();
-    .bold-font();
 
-    ::slotted(h1),
-    ::slotted(h2) {
-      all: unset !important; // The need for this !important was interesting so I added this comment for the PR :) https://stackoverflow.com/questions/54884345/css-precendence-in-shadow-dom-style
+    &.arrow-position-beside {
+      flex-grow: 0;
     }
   }
 
-  .gux-header-spacer {
-    flex: 1 1 auto;
-    align-self: auto;
+  &.reverse-headings {
+    & .gux-header-text {
+      display: flex;
+      flex-direction: column-reverse;
+    }
+
+    & svg {
+      color: red !important;
+    }
+  }
+
+  ::slotted([slot='header']) {
+    padding: 0;
+    margin: 0;
+    font-size: var(--font-size-200) !important;
+    line-height: var(--line-height-100) !important;
+  }
+
+  ::slotted([slot='subheading']) {
+    padding: 0;
+    margin: 2px 0 0;
+    font-size: var(--font-size-100) !important;
+    font-weight: var(--font-weight-normal) !important;
+  }
+
+  ::slotted([slot='icon']) {
+    align-self: flex-start;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    color: var(--gux-black-100);
+
+    .reverse-headings& {
+      align-self: flex-end;
+    }
   }
 
   .gux-header-icon {
     flex: 0 1 auto;
     align-items: center;
     align-self: auto;
+    margin-left: var(--spacing-xs);
     color: @gux-black-100;
     transition: transform 0.5s ease;
     transform-origin: center;
 
     gux-icon {
-      width: 20px;
-      height: 20px;
+      width: var(--spacing-medium);
+      height: var(--spacing-medium);
     }
 
     &.gux-expanded {

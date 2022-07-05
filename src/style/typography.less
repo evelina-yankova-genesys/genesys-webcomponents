@@ -15,7 +15,7 @@ body,
 .body-font {
   .base-font();
 
-  font-size: 12px;
+  font-size: var(--font-size-200);
   line-height: @body-font-line-height;
 }
 
@@ -30,24 +30,22 @@ h1,
 .h1 {
   .light-font();
 
-  font-size: 24px;
-  line-height: 32px;
+  font-size: var(--font-size-500);
+  line-height: var(--line-height-400);
 }
 
 h2,
 .h2 {
-  .light-font();
-
-  font-size: 18px;
-  line-height: 24px;
+  font-size: var(--font-size-400);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-300);
 }
 
 h3,
 .h3 {
-  .bold-font();
-
-  font-size: 14px;
-  line-height: 20px;
+  font-size: var(--font-size-300);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-200);
 }
 
 h4,
@@ -58,8 +56,8 @@ h6,
 .h6 {
   .base-font();
 
-  font-size: 14px;
-  line-height: 20px;
+  font-size: var(--font-size-300);
+  line-height: var(--line-height-200);
 }
 
 /* Anchor */
@@ -80,22 +78,22 @@ table a {
 .gux-large-text {
   .base-font();
 
-  font-size: 14px;
-  line-height: 24px;
+  font-size: var(--font-size-300);
+  line-height: var(--font-size-500);
 }
 
 .gux-small-text {
   .base-font();
 
-  font-size: 11px;
-  line-height: 16px;
+  font-size: var(--font-size-100);
+  line-height: var(--line-height-100);
 }
 
 .gux-label {
   .bold-font();
 
-  font-size: 12px;
-  line-height: 16px;
+  font-size: var(--font-size-200);
+  line-height: var(--line-height-100);
 }
 
 .gux-sr-only {
@@ -159,19 +157,19 @@ table a {
 
 .base-font() {
   font-family: Roboto, sans-serif;
-  font-weight: 400;
+  font-weight: var(--font-weight-normal);
 }
 
 .light-font() {
   .base-font();
 
-  font-weight: 300;
+  font-weight: var(--font-weight-light);
 }
 
 .bold-font() {
   .base-font();
 
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
 }
 
 /* Font Definitions. */
