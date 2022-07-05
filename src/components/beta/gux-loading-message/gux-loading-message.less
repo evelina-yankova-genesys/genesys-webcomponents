@@ -1,0 +1,49 @@
+@import (reference) '../../../style/typography.less';
+
+div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  &.gux-small-container {
+    .gux-title-container {
+      padding: @spacing-xs 0 @spacing-2xs;
+    }
+
+    slot[name='title'] {
+      .h4();
+    }
+
+    slot[name='body'] {
+      .gux-small-text();
+    }
+  }
+
+  &.gux-medium-container {
+    .gux-title-container {
+      padding: @spacing-xs 0 @spacing-2xs;
+    }
+
+    slot[name='title'] {
+      .h4();
+    }
+
+    slot[name='body'] {
+      .gux-small-text();
+    }
+  }
+
+  &.gux-large-container {
+    .gux-title-container {
+      padding: @spacing-medium 0 @spacing-2xs;
+    }
+
+    slot[name='title'] {
+      .h1();
+    }
+
+    slot[name='body'] {
+      .gux-small-text();
+    }
+  }
+}

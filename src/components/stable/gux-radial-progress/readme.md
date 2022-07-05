@@ -20,6 +20,10 @@ Otherwise, if the progress is unknown, and no percentage is provided, it instead
 
 ## Dependencies
 
+### Used by
+
+ - [gux-loading-message-beta](../../beta/gux-loading-message)
+
 ### Depends on
 
 - [gux-radial-loading](../gux-radial-loading)
@@ -28,6 +32,7 @@ Otherwise, if the progress is unknown, and no percentage is provided, it instead
 ```mermaid
 graph TD;
   gux-radial-progress --> gux-radial-loading
+  gux-loading-message-beta --> gux-radial-progress
   style gux-radial-progress fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
