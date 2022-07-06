@@ -1,37 +1,63 @@
 <h1>gux-loading-message-beta</h1>
 
-<h2>Indeterminate Small</h2>
-<gux-loading-message-beta size="small">
-  <span slot="title">The content is loading...</span>
-  <span slot="body">Thank you for waiting.</span>
-</gux-loading-message-beta>
+<div class="center-loading">
+  <h2>Indeterminate Small</h2>
+  <div class="border">
+    <gux-loading-message-beta size="small">
+      <span slot="title">The content is loading...</span>
+      <span slot="body">Thank you for waiting.</span>
+    </gux-loading-message-beta>
+  </div>
 
-<h2>Indeterminate Medium</h2>
-<gux-loading-message-beta size="medium">
-  <span slot="title">The content is loading...</span>
-  <span slot="body">Thank you for waiting.</span>
-</gux-loading-message-beta>
+  <h2>Indeterminate Medium</h2>
+  <div class="border">
+    <gux-loading-message-beta size="medium">
+      <span slot="title">The content is loading...</span>
+      <span slot="body">Thank you for waiting.</span>
+    </gux-loading-message-beta>
+  </div>
 
-<h2>Indeterminate Large</h2>
-<gux-loading-message-beta size="large">
-  <span slot="title">The content is loading...</span>
-  <span slot="body">Thank you for waiting.</span>
-</gux-loading-message-beta>
+  <h2>Indeterminate Large</h2>
+  <div class="border">
+    <gux-loading-message-beta size="large">
+      <span slot="title">The content is loading...</span>
+      <span slot="body">Thank you for waiting.</span>
+    </gux-loading-message-beta>
+  </div>
 
-<h2>Determinate Small</h2>
-<gux-loading-message-beta size="small" value="1" max-value="10">
-  <span slot="title">This content will be available in (5) seconds...</span>
-  <span slot="body">Thank you for waiting.</span>
-</gux-loading-message-beta>
+  <h2>Determinate Small</h2>
+  <div class="border">
+    <gux-loading-message-beta size="small" value="1" max-value="10">
+      <span slot="title">This content will be available in (5) seconds...</span>
+      <span slot="body">Thank you for waiting.</span>
+    </gux-loading-message-beta>
+  </div>
 
-<h2>Determinate Medium</h2>
-<gux-loading-message-beta size="medium" value="5" max-value="10">
-  <span slot="title">This content will be available in (5) seconds...</span>
-  <span slot="body">Thank you for waiting.</span>
-</gux-loading-message-beta>
+  <h2>Determinate Medium</h2>
+  <div class="border">
+    <gux-loading-message-beta size="medium" value="5" max-value="10">
+      <span slot="title">This content will be available in (5) seconds...</span>
+      <span slot="body">Thank you for waiting.</span>
+    </gux-loading-message-beta>
+  </div>
 
-<h2>Determinate Large</h2>
-<gux-loading-message-beta size="large" value="10" max-value="10">
-  <span slot="title">This content will be available in (5) seconds...</span>
-  <span slot="body">Thank you for waiting.</span>
-</gux-loading-message-beta>
+  <h2>Determinate Large</h2>
+  <div class="border">
+    <gux-loading-message-beta size="large" value="10" max-value="10">
+      <span slot="title">This content will be available in (5) seconds...</span>
+      <span slot="body">Thank you for waiting.</span>
+    </gux-loading-message-beta>
+  </div>
+</div>
+
+<style>
+  .center-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .border {
+    border: 1px dashed gainsboro;
+  }
+</style>
