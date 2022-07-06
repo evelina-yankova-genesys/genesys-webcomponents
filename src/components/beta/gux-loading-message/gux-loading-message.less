@@ -1,4 +1,6 @@
 @import (reference) '../../../style/typography.less';
+@import (reference) '../../../style/spacing.less';
+@import (reference) '../../../style/color-mixins.less';
 
 div {
   display: flex;
@@ -12,10 +14,14 @@ div {
 
     slot[name='title'] {
       .h4();
+
+      color: @gux-black-60;
     }
 
     slot[name='body'] {
       .gux-small-text();
+
+      color: @gux-black-90;
     }
   }
 
@@ -26,10 +32,14 @@ div {
 
     slot[name='title'] {
       .h4();
+
+      color: @gux-black-60;
     }
 
     slot[name='body'] {
       .gux-small-text();
+
+      color: @gux-black-90;
     }
   }
 
@@ -40,10 +50,14 @@ div {
 
     slot[name='title'] {
       .h1();
+
+      color: @gux-black-60;
     }
 
     slot[name='body'] {
-      .gux-small-text();
+      .gux-large-text();
+
+      color: @gux-black-90;
     }
   }
 }
